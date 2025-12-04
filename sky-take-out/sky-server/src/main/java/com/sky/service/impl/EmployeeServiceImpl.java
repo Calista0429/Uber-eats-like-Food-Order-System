@@ -106,15 +106,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     /**
-     * 员工状态查询
-     * @param employeeDTO
-     */
-    public void status(EmployeeDTO employeeDTO) {
-
-
-    }
-
-    /**
      * 启用禁用员工账号
      * @param status
      * @param id
@@ -125,6 +116,29 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setId(id);
         employeeMapper.update(employee);
 
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    public Employee getById(Long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");
+        return employee;
+    }
+
+    /**
+     * 修改员工信息
+     * @param employeeDTO
+     */
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = employeeMapper.getById(employeeDTO.getId());
+        BeanUtils.copyProperties(employeeDTO, employee);
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+        employeeMapper.update(employee);
     }
 
 
