@@ -76,6 +76,11 @@ public class EmployeeController {
         return Result.success();
     }
 
+    /**
+     * 员工添加
+     * @param employeeDTO
+     * @return
+     */
     @PostMapping
     @ApiOperation("员工添加")
     public Result save(@RequestBody EmployeeDTO employeeDTO){
@@ -110,6 +115,12 @@ public class EmployeeController {
         employeeService.startOrStop(status, id);
         return Result.success();
     }
+
+    /**
+     * 根绝id查询员工
+     * @param id
+     * @return
+     */
     @GetMapping("{id}")
     @ApiOperation("根据id查询员工信息")
     public Result<Employee> getById(@PathVariable Long id){
