@@ -4,6 +4,15 @@
 <mapper namespace="com.sky.mapper.CategoryMapper">
     <update id="update">
         update category
+        <set>
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="type != null and type != ''">type = #{type},</if>
+            <if test="sort != null and sort != ''">sort = #{sort},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateUser != null">update_user = #{updateUser},</if>
+        </set>
+        where id = #{id}
     </update>
 
 
@@ -14,6 +23,6 @@
                 and name like concat("%", #{name}, "%")
             </if>
         </where>
-        order by create_time desc
+        order by #{sort} desc
     </select>
 </mapper>

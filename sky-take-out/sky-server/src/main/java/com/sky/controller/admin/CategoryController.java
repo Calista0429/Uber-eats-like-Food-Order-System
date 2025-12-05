@@ -46,6 +46,13 @@ public class CategoryController {
         return Result.success();
     }
 
+    /**
+     * 修改分类
+     * @param categoryDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("修改分类")
     public Result update(@RequestBody CategoryDTO categoryDTO){
         log.info("修改分类参数: {}", categoryDTO);
         categoryService.update(categoryDTO);
