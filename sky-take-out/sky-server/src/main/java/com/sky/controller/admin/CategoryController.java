@@ -89,4 +89,12 @@ public class CategoryController {
         List<Category> list = categoryService.typeQuery(type);
         return Result.success(list);
     }
+
+    @DeleteMapping
+    @ApiOperation("根据id删除分类")
+    public Result<String> delete(Long id){
+        log.info("根据id删除分类");
+        categoryService.deleteById(id);
+        return Result.success();
+    }
 }
