@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -48,21 +49,21 @@ public class AutoFillAspect {
         Object object = arg[0];
 
         //准备赋值的数据
-        LocalTime localTime = LocalTime.now();
+        LocalDateTime localTime = LocalDateTime.now();
         Long currentId = BaseContext.getCurrentId();
 
         if (operationType == OperationType.INSERT) {
             //插入操作，对四个方法赋值
             try {
-                Method createTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME, LocalTime.class);
-                Method updateTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalTime.class);
-                Method createUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
-                Method updateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
+                Method setCreateTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_TIME, LocalDateTime.class);
+                Method setUpdateTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
+                Method setCreateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
+                Method setUpdateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
-                createTime.invoke(localTime);
-                updateTime.invoke(localTime);
-                createUser.invoke(currentId);
-                updateUser.invoke(currentId);
+                setCreateTime.invoke(localTime);
+                setUpdateTime.invoke(localTime);
+                setCreateUser.invoke(currentId);
+                setUpdateUser.invoke(currentId);
                 
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
@@ -73,11 +74,11 @@ public class AutoFillAspect {
             }
         } else if (operationType == OperationType.UPDATE) {
             try {
-                Method updateTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalTime.class);
-                Method updateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
+                Method setUpdateTime = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_TIME, LocalDateTime.class);
+                Method setUpdateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
-                updateTime.invoke(localTime);
-                updateUser.invoke(currentId);
+                setUpdateTime.invoke(object, localTime);
+                setUpdateUser.invoke(object, currentId);
 
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);
