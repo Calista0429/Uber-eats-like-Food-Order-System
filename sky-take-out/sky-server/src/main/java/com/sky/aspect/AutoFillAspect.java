@@ -60,10 +60,10 @@ public class AutoFillAspect {
                 Method setCreateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_CREATE_USER, Long.class);
                 Method setUpdateUser = object.getClass().getDeclaredMethod(AutoFillConstant.SET_UPDATE_USER, Long.class);
 
-                setCreateTime.invoke(localTime);
-                setUpdateTime.invoke(localTime);
-                setCreateUser.invoke(currentId);
-                setUpdateUser.invoke(currentId);
+                setCreateTime.invoke(object, localTime);
+                setUpdateTime.invoke(object, localTime);
+                setCreateUser.invoke(object, currentId);
+                setUpdateUser.invoke(object, currentId);
                 
             } catch (NoSuchMethodException e) {
                 throw new RuntimeException(e);

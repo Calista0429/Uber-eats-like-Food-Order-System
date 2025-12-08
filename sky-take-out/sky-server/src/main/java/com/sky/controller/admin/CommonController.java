@@ -1,5 +1,7 @@
 package com.sky.controller.admin;
 
+import com.github.pagehelper.Constant;
+import com.sky.constant.MessageConstant;
 import com.sky.result.Result;
 import com.sky.utils.AWSOssutil;
 import io.swagger.annotations.Api;
@@ -45,10 +47,10 @@ public class CommonController {
             return  Result.success(filePath);
 
         } catch (IOException e) {
-            log.error("文件上传失败", e);
+            log.error("文件上传失败: {}", e);
         }
 
-        return null;
+        return Result.error(MessageConstant.UPLOAD_FAILED);
     }
 
 }
