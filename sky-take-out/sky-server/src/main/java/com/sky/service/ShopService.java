@@ -13,3 +13,4 @@ public interface ShopService {
     void updateStatus(Integer status);
 }
 
+

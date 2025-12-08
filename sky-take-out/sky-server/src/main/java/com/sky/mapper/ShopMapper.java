@@ -20,3 +20,4 @@ public interface ShopMapper {
     void updateStatus(Integer status);
 }
 
+
