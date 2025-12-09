@@ -50,7 +50,7 @@ public interface DishService {
     /**
      * 修改菜品状态信息
      * @param status
-     * @param dishId
+     * @param id
      */
-    void status(Integer status, Long dishId);
+    void status(Integer status, Long id);
 }

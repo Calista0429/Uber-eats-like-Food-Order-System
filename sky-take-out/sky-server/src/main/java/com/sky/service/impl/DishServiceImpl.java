@@ -119,12 +119,12 @@ public class DishServiceImpl implements DishService {
     /**
      * 修改菜品状态信息
      * @param status
-     * @param dishId
+     * @param id
      */
-    public void status(Integer status, Long dishId) {
+    public void status(Integer status, Long id) {
         Dish dish = new Dish();
         dish.setStatus(status);
-        dish.setId(dishId);
+        dish.setId(id);
         dishMapper.update(dish);
     }
 }

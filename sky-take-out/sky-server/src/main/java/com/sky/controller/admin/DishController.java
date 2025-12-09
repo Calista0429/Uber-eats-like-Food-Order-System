@@ -93,11 +93,11 @@ public class DishController {
         return Result.success(dishVO);
     }
 
-    @PostMapping("status/{status}")
+    @PostMapping("/status/{status}")
     @ApiOperation("修改菜品出售状态")
-    public Result status(@PathVariable Integer status, Long dishId){
-        log.info("修改餐品出售状态 {}", status);
-        dishService.status(status, dishId);
+    public Result status(@PathVariable Integer status, Long id){
+        log.info("修改餐品出售状态 {}, {}", status, id);
+        dishService.status(status, id);
         return Result.success();
     }
 
