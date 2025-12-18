@@ -101,5 +101,17 @@ public class DishController {
         return Result.success();
     }
 
+    /**
+     * 菜品删除
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    @ApiOperation("菜品删除")
+    public Result delete(@RequestParam List<Long> ids){
+        log.info("菜品删除 {}", ids);
+        dishService.delete(ids);
+        return Result.success();
+    }
 
 }

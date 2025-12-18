@@ -6,6 +6,8 @@ import com.sky.entity.Dish;
 import com.sky.result.PageResult;
 import com.sky.vo.DishVO;
 
+import java.util.List;
+
 public interface DishService {
 
     /**
@@ -53,4 +55,10 @@ public interface DishService {
      * @param id
      */
     void status(Integer status, Long id);
+
+    /**
+     * 菜品删除
+     * @param ids
+     */
+    void delete(List<Long> ids);
 }
