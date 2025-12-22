@@ -1,7 +1,11 @@
 package com.sky.mapper;
 
+import com.sky.entity.Dish;
+import com.sky.entity.Setmeal;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 @Mapper
 public interface SetmealMapper {
@@ -13,4 +17,14 @@ public interface SetmealMapper {
      */
     @Select("SELECT count(id) from setmeal where category_id = #{category_id}")
     Integer countByCategoryId(Long id);
+
+    /**
+     * 根据种类id查询套餐
+     * @param setmeal
+     * @return
+     */
+    @Select("SELECT * FROM setmeal WHERE category_id = #{categoryId}")
+    List<Setmeal> list(Setmeal setmeal);
+
+
 }

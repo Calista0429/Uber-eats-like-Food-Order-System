@@ -61,4 +61,6 @@ public interface DishService {
      * @param ids
      */
     void delete(List<Long> ids);
+
+    List<DishVO> listwithflavor(Dish dish);
 }
