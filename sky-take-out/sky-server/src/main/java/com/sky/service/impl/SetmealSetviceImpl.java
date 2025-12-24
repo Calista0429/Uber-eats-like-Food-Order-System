@@ -2,16 +2,19 @@ package com.sky.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
 import com.sky.entity.SetmealDish;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.SetmealSetvice;
 import com.sky.vo.DishItemVO;
+import com.sky.vo.SetmealVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +27,7 @@ import java.util.List;
 public class SetmealSetviceImpl implements SetmealSetvice {
 
     @Autowired
-    SetmealMapper setmealMapper;
+    private SetmealMapper setmealMapper;
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;
@@ -80,6 +83,34 @@ public class SetmealSetviceImpl implements SetmealSetvice {
         PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
         Page<Setmeal> page = setmealMapper.page(setmealPageQueryDTO);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    /**
+     * 根据id查询套餐
+     * @param id
+     * @return
+     */
+    public SetmealVO queryById(Long id) {
+        return setmealMapper.queryById(id);
+    }
+
+    /**
+     * 批量删除套餐和菜品
+     * @param ids
+     */
+    public void deleteBatchWithDish(List<Long> ids) {
+        for(Long id : ids) {
+            SetmealVO setmealVO = setmealMapper.queryById(id);
+            Integer status = setmealVO.getStatus();
+            if (status == StatusConstant.DISABLE) {
+                setmealMapper.deleteById(id);
+                setmealDishMapper.deleteById(id);
+            }
+            else {
+                throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
+            }
+
+        }
     }
 
 }
