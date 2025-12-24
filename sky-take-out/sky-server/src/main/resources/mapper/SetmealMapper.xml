@@ -4,4 +4,8 @@
 <mapper namespace="com.sky.mapper.SetmealMapper">
 
 
+    <select id="getDishItemById" resultType="com.sky.vo.DishItemVO">
+        SELECT sd.name, sd.copies, d.image, d.description FROM setmeal_dish sd left join dish d on sd.dish_id = d.id
+        <where>setmeal_id = #{setmealId}</where>
+    </select>
 </mapper>

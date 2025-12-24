@@ -61,6 +61,6 @@ public interface DishMapper {
     @Delete("Delete from dish where id = #{id}")
     void deleteById(Long id);
 
-    @Select("SELECT * FROM dish where category_id = #{categoryId}")
+    @Select("SELECT * FROM dish where category_id = #{categoryId} and status != 0")
     List<Dish> list(Dish dish);
 }
