@@ -1,15 +1,22 @@
 package com.sky.service.impl;
 
-import com.sky.entity.Dish;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.sky.constant.StatusConstant;
+import com.sky.dto.SetmealDTO;
+import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
+import com.sky.entity.SetmealDish;
+import com.sky.mapper.SetmealDishMapper;
 import com.sky.mapper.SetmealMapper;
+import com.sky.result.PageResult;
 import com.sky.service.SetmealSetvice;
 import com.sky.vo.DishItemVO;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,6 +25,9 @@ public class SetmealSetviceImpl implements SetmealSetvice {
 
     @Autowired
     SetmealMapper setmealMapper;
+
+    @Autowired
+    private SetmealDishMapper setmealDishMapper;
 
 
     /**
@@ -39,5 +49,37 @@ public class SetmealSetviceImpl implements SetmealSetvice {
         return setmealMapper.getDishItemById(setmealId);
     }
 
+    /**
+     * 添加套餐
+     * @param setmealDTO
+     */
+    public void save(SetmealDTO setmealDTO) {
+
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+
+        Setmeal setmeal = new Setmeal();
+        setmeal.setStatus(StatusConstant.DISABLE);
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+        setmealMapper.save(setmeal);
+
+        Long setmealId = setmeal.getId();
+        if(setmealDishes != null && setmealDishes.size() > 0) {
+            setmealDishes.forEach(setmealDish -> {
+                setmealDish.setSetmealId(setmealId);
+            });
+            setmealDishMapper.insertBatch(setmealDishes);
+        }
+    }
+
+    /**
+     * 套餐分页查询
+     *
+     * @return
+     */
+    public PageResult page(SetmealPageQueryDTO setmealPageQueryDTO) {
+        PageHelper.startPage(setmealPageQueryDTO.getPage(), setmealPageQueryDTO.getPageSize());
+        Page<Setmeal> page = setmealMapper.page(setmealPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
+    }
 
 }

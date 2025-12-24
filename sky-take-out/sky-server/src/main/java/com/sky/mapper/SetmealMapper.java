@@ -1,8 +1,14 @@
 package com.sky.mapper;
 
+import com.github.pagehelper.Page;
+import com.sky.annotation.AutoFill;
+import com.sky.dto.SetmealDTO;
+import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
+import com.sky.enumeration.OperationType;
 import com.sky.vo.DishItemVO;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,7 +22,7 @@ public interface SetmealMapper {
      * @param id
      * @return
      */
-    @Select("SELECT count(id) from setmeal where category_id = #{category_id}")
+    @Select("SELECT count(id) from setmeal where category_id = #{categoryId}")
     Integer countByCategoryId(Long id);
 
     /**
@@ -29,4 +35,13 @@ public interface SetmealMapper {
 
 
     List<DishItemVO> getDishItemById(String setmealId);
+
+    /**
+     * 添加套餐
+     * @param setmeal
+     */
+    @AutoFill(value = OperationType.INSERT)
+    void save(Setmeal setmeal);
+
+    Page<Setmeal> page(SetmealPageQueryDTO setmealPageQueryDTO);
 }

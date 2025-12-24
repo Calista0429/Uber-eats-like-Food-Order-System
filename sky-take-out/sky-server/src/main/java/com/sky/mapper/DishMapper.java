@@ -20,7 +20,7 @@ public interface DishMapper {
      * @param category_id
      * @return
      */
-    @Select("SELECT count(id) from dish where category_id = #{category_id}")
+    @Select("SELECT count(id) from dish where category_id = #{categoryId}")
     Integer countByCategoryId(Long category_id);
 
     /**
@@ -36,8 +36,8 @@ public interface DishMapper {
      * 根据菜品分类id查询
      * @param categoryId
      */
-    @Select("SELECT * FROM dish WHERE category_id = #{categoryID}")
-    void queryByCategoryId(String categoryId);
+    @Select("SELECT * FROM dish WHERE category_id = #{categoryId}")
+    List<Dish> queryByCategoryId(Long categoryId);
 
     /**
      * 更新菜品信息

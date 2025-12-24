@@ -26,8 +26,9 @@ public interface DishService {
     /**
      * 根据菜品分类ID查询
      * @param categoryId
+     * @return
      */
-    void queryByCategoryId(String categoryId);
+    List<DishDTO> queryByCategoryId(Long categoryId);
 
     /**
      * 更新菜品

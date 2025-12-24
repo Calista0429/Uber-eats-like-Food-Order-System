@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.FlashMapManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -38,8 +37,6 @@ public class DishServiceImpl implements DishService {
 
     @Autowired
     private SetmealDishMapper setmealDishMapper;
-    @Autowired
-    private FlashMapManager flashMapManager;
 
     /**
      * 新增菜品
@@ -77,9 +74,17 @@ public class DishServiceImpl implements DishService {
     /**
      * 根据菜品分类查询
      * @param categoryId
+     * @return
      */
-    public void queryByCategoryId(String categoryId) {
-        dishMapper.queryByCategoryId(categoryId);
+    public List<DishDTO> queryByCategoryId(Long categoryId) {
+        List<Dish> dishList = dishMapper.queryByCategoryId(categoryId);
+        List<DishDTO> dishDTOList = new ArrayList<>();
+        for (Dish dish : dishList) {
+            DishDTO dishDTO = new DishDTO();
+            BeanUtils.copyProperties(dish, dishDTO);
+            dishDTOList.add(dishDTO);
+        }
+        return dishDTOList;
     }
 
     /**

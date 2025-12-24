@@ -71,10 +71,10 @@ public class DishController {
      */
     @GetMapping("/list")
     @ApiOperation("根据菜品种类id查询")
-    public Result<List<DishDTO>> queryByCategoryId(@RequestBody String categoryId){
+    public Result<List<DishDTO>> queryByCategoryId(Long categoryId){
         log.info("根据菜品id查询");
-        dishService.queryByCategoryId(categoryId);
-        return Result.success();
+        List<DishDTO> dishDTOList = dishService.queryByCategoryId(categoryId);
+        return Result.success(dishDTOList);
     }
 
     /**
