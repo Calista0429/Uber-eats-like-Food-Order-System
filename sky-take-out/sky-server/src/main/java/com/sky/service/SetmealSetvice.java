@@ -24,4 +24,8 @@ public interface SetmealSetvice {
     SetmealVO queryById(Long id);
 
     void deleteBatchWithDish(List<Long> ids);
+
+    void startOrStop(Integer status, Long id);
+
+    void update(SetmealDTO setmealDTO);
 }

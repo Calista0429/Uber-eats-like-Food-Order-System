@@ -9,10 +9,7 @@ import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import com.sky.vo.DishItemVO;
 import com.sky.vo.SetmealVO;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -32,7 +29,7 @@ public interface SetmealMapper {
      * @param setmeal
      * @return
      */
-    @Select("SELECT * FROM setmeal WHERE category_id = #{categoryId}")
+    @Select("SELECT * FROM setmeal WHERE category_id = #{categoryId} and status != 0")
     List<Setmeal> list(Setmeal setmeal);
 
 
@@ -58,7 +55,7 @@ public interface SetmealMapper {
      * @return
      */
     @Select("SELECT * FROM setmeal WHERE id = #{id}")
-    SetmealVO queryById(Long id);
+    Setmeal queryById(Long id);
 
     /**
      * 根据套餐id删除
@@ -67,4 +64,12 @@ public interface SetmealMapper {
     @Delete("DELETE From setmeal where id = #{id}")
     void deleteById(Long id);
 
+    @Update("UPDATE setmeal set status = #{status} where id = #{id} ")
+    void startOrStop(Integer status, Long id);
+
+    /**
+     * 修改菜品
+     * @param setmealDTO
+     */
+    void update(SetmealDTO setmealDTO);
 }

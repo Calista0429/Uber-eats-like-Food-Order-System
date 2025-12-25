@@ -6,6 +6,7 @@ import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -30,4 +31,7 @@ public interface SetmealDishMapper {
      */
     @Delete("DELETE From setmeal_dish where setmeal_id = #{id}")
     void deleteById(Long id);
+
+    @Select("SELECT * FROM setmeal_dish where setmeal_id = #{id}")
+    List<SetmealDish> queryBySetmealId(Long id);
 }

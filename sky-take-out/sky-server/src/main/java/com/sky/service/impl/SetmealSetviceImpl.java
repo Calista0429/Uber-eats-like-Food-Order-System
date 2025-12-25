@@ -91,7 +91,12 @@ public class SetmealSetviceImpl implements SetmealSetvice {
      * @return
      */
     public SetmealVO queryById(Long id) {
-        return setmealMapper.queryById(id);
+        SetmealVO setmealVO = new SetmealVO();
+        Setmeal setmeal = setmealMapper.queryById(id);
+        BeanUtils.copyProperties(setmeal, setmealVO);
+        List<SetmealDish> setmealDishes = setmealDishMapper.queryBySetmealId(id);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
     }
 
     /**
@@ -100,8 +105,8 @@ public class SetmealSetviceImpl implements SetmealSetvice {
      */
     public void deleteBatchWithDish(List<Long> ids) {
         for(Long id : ids) {
-            SetmealVO setmealVO = setmealMapper.queryById(id);
-            Integer status = setmealVO.getStatus();
+            Setmeal setmeal = setmealMapper.queryById(id);
+            Integer status = setmeal.getStatus();
             if (status == StatusConstant.DISABLE) {
                 setmealMapper.deleteById(id);
                 setmealDishMapper.deleteById(id);
@@ -111,6 +116,34 @@ public class SetmealSetviceImpl implements SetmealSetvice {
             }
 
         }
+    }
+
+    /**
+     * 起售停售套餐
+     *
+     * @param status
+     * @param id
+     */
+    public void startOrStop(Integer status, Long id) {
+        setmealMapper.startOrStop(status, id);
+    }
+
+    /**
+     * 修改套餐
+     * @param setmealDTO
+     */
+    public void update(SetmealDTO setmealDTO) {
+        setmealMapper.update(setmealDTO);
+        setmealDishMapper.deleteById(setmealDTO.getId());
+        Long setmealId = setmealDTO.getId();
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        if(setmealDishes != null && setmealDishes.size() > 0) {
+            setmealDishes.forEach(setmealDish -> {
+                setmealDish.setSetmealId(setmealId);
+            });
+            setmealDishMapper.insertBatch(setmealDishes);
+        }
+
     }
 
 }
