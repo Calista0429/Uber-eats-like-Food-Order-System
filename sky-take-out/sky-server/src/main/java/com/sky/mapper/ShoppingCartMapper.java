@@ -38,4 +38,6 @@ public interface ShoppingCartMapper {
     void clean(ShoppingCart shoppingCart);
 
 
+    @Delete("DELETE FROM shopping_cart where id = #{id}")
+    void deleteById(ShoppingCart shoppingCart);
 }

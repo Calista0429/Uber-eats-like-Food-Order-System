@@ -8,14 +8,17 @@ import com.sky.entity.ShoppingCart;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.mapper.ShoppingCartMapper;
+import com.sky.result.Result;
 import com.sky.service.ShoppingCartService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Slf4j
@@ -29,6 +32,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Autowired
     private SetmealMapper setmealMapper;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    String prefix_key = "shopping_cart:";
+
 
     /**
      * 添加购物车
@@ -73,8 +82,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
             shoppingCartMapper.insert(shoppingCart);
 
         }
-
-
+        cleanCache(prefix_key);
     }
 
     /**
@@ -83,9 +91,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
      * @return
      */
     public List<ShoppingCart> list() {
+
+        Long currentId = BaseContext.getCurrentId();
         ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCart.setUserId(BaseContext.getCurrentId());
-        return shoppingCartMapper.list(shoppingCart);
+        shoppingCart.setUserId(currentId);
+        String keys = prefix_key + currentId;
+        Object list = redisTemplate.opsForValue().get(keys);
+
+
+        if (list != null) {
+            return (List<ShoppingCart>) list;
+        }
+
+        List<ShoppingCart> shoppingCartList = shoppingCartMapper.list(shoppingCart);
+        redisTemplate.opsForValue().set(keys, shoppingCartList,3, TimeUnit.MINUTES);
+
+        return shoppingCartList;
     }
 
     /**
@@ -95,5 +116,38 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUserId(BaseContext.getCurrentId());
         shoppingCartMapper.clean(shoppingCart);
+        cleanCache(prefix_key);
+    }
+
+    /**
+     * 删除购物车中的一个商品
+     * @param shoppingCartDTO
+     */
+    public void deleteById(ShoppingCartDTO shoppingCartDTO) {
+
+        //设置购物车属性
+        ShoppingCart shoppingCart = new ShoppingCart();
+        BeanUtils.copyProperties(shoppingCartDTO, shoppingCart);
+        shoppingCart.setUserId(BaseContext.getCurrentId());
+
+        //查询购物车数据并设置数量-1
+        List<ShoppingCart> list = shoppingCartMapper.list(shoppingCart);
+        ShoppingCart cart = list.get(0);
+
+        Integer number = cart.getNumber();
+        if (number > 1) {
+            cart.setNumber(number - 1);
+            shoppingCartMapper.update(cart);
+        }
+        else {
+            shoppingCartMapper.deleteById(cart);
+        }
+
+        cleanCache(prefix_key);
+
+    }
+    private void cleanCache(String prefix_key) {
+        String cacheKey = prefix_key + BaseContext.getCurrentId();
+        redisTemplate.delete(cacheKey);
     }
 }
