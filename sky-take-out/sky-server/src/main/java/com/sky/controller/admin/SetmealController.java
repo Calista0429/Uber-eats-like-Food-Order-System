@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
 import com.sky.entity.Setmeal;
+import com.sky.entity.ShoppingCart;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealSetvice;
@@ -17,7 +18,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController("adminSetmealController")
@@ -25,6 +25,7 @@ import java.util.List;
 @Slf4j
 @Api(tags = "套餐相关接口")
 public class SetmealController {
+
     @Autowired
     private SetmealSetvice setmealSetvice;
 
@@ -99,6 +100,11 @@ public class SetmealController {
         return Result.success();
     }
 
+    /**
+     * 修改套餐
+     * @param setmealDTO
+     * @return
+     */
     @PutMapping
     @ApiOperation("修改套餐")
     @CacheEvict(cacheNames = "setmealCache", allEntries = true)
@@ -107,4 +113,5 @@ public class SetmealController {
         setmealSetvice.update(setmealDTO);
         return Result.success();
     }
+
 }
