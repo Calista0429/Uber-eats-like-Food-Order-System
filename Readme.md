@@ -11,7 +11,7 @@ Sky Takeout is a full-stack food delivery platform that enables restaurants to m
 3. **Backend API** - RESTful services for business logic
 
 Here shows the diagram of this project
-::: mermaid
+```mermaid
 
 flowchart TB
 
@@ -86,7 +86,7 @@ M6 --> C1
 C3 --> M10
 
 
-:::
+```
 
 
 ## Core Features
@@ -170,7 +170,7 @@ C3 --> M10
 
 ## Project Diagram
 ### User Query Dishes with redis for caching
-::: mermaid
+```mermaid
 flowchart TB
 
 %% Client
@@ -198,6 +198,6 @@ K --> G
 C --> L[Mapper Layer<br/>Database Access]
 L --> M[Query Dish Data]
 M --> H
-:::
+```
 
 
