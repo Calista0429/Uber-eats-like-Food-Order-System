@@ -200,4 +200,57 @@ L --> M[Query Dish Data]
 M --> H
 ```
 
+## TODO List
 
+### Order Management Service
+
+- [ ] Implement order pagination query
+- [ ] Implement order details query
+- [ ] Implement order status update
+- [ ] Implement order confirmation
+- [ ] Implement order rejection
+- [ ] Implement order cancellation
+- [ ] Implement order delivery
+- [ ] Implement order completion
+- [ ] Implement user order history
+- [ ] Implement order statistics
+
+### Payment Service
+
+- [ ] Implement payment processing
+- [ ] Implement payment callback handler
+- [ ] Implement payment status query
+- [ ] Implement refund functionality
+- [ ] Add payment methods to OrderService interface
+- [ ] Add payment endpoints to User OrderController
+
+### Order Dashboard Service
+
+- [ ] Complete getOverviewOrders method
+- [ ] Complete getBusinessData method
+- [ ] Add order statistics method
+- [ ] Add order trend analysis method
+- [ ] Create WorkspaceServiceImpl
+- [ ] Create WorkspaceController
+
+### Controllers
+
+- [ ] Create Admin OrderController
+- [ ] Add order statistics endpoint
+- [ ] Enhance User OrderController with history and detail endpoints
+
+### Data Access Layer
+
+- [ ] Enhance OrderMapper methods
+- [ ] Enhance OrderDetailMapper methods
+
+### DTOs/VOs
+
+- [ ] Create order DTOs (Confirm, Rejection, Cancel, Delivery)
+- [ ] Create order VOs (Statistics, Detail)
+
+### Testing
+
+- [ ] Test order management flow
+- [ ] Test payment functionality
+- [ ] Test dashboard services
