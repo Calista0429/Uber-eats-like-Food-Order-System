@@ -1,0 +1,211 @@
+// src/styles/warm-theme.scss
+// ── Design Tokens ──────────────────────────────────────────
+$brand-dark:         #2c1a0e;
+$brand-mid:          #431407;
+$brand-accent:       #f97316;
+$brand-accent-light: #fef3e8;
+$brand-amber:        #fbbf24;
+$page-bg:            #f5f0eb;
+$card-bg:            #ffffff;
+$card-border:        #f0e8e0;
+$table-header-bg:    #fdf8f4;
+$text-primary:       #2c1a0e;
+$text-secondary:     #9a7c68;
+$text-muted:         #b8a090;
+$input-border:       #e8d5c4;
+$success-color:      #22c55e;
+$danger-color:       #ef4444;
+$info-color:         #3b82f6;
+
+// ── Element UI Global Overrides ────────────────────────────
+.el-button--primary {
+  background-color: $brand-accent !important;
+  border-color:     $brand-accent !important;
+  border-radius:    8px !important;
+  box-shadow:       0 4px 12px rgba(249, 115, 22, 0.3) !important;
+  &:hover, &:focus {
+    background-color: darken($brand-accent, 8%) !important;
+    border-color:     darken($brand-accent, 8%) !important;
+  }
+}
+.el-button--default {
+  border-color:  $input-border !important;
+  color:         #6b4c3b !important;
+  border-radius: 8px !important;
+  box-shadow:    none !important;
+  &:hover { border-color: $brand-accent !important; color: $brand-accent !important; }
+}
+.el-button--danger {
+  background-color: #fff5f5 !important;
+  border-color:     #fecaca !important;
+  color:            $danger-color !important;
+  border-radius:    8px !important;
+  box-shadow:       none !important;
+}
+.el-button--text { color: $brand-accent !important; }
+
+.el-input__inner {
+  border-color:  $input-border !important;
+  border-radius: 8px !important;
+  color:         $text-primary !important;
+  &::placeholder { color: $text-muted; }
+  &:focus {
+    border-color: $brand-accent !important;
+    box-shadow:   0 0 0 2px rgba(249, 115, 22, 0.15) !important;
+  }
+}
+.el-select .el-input__inner { border-radius: 8px !important; }
+.el-textarea__inner {
+  border-color:  $input-border !important;
+  border-radius: 8px !important;
+  &:focus { border-color: $brand-accent !important; }
+}
+
+.el-table {
+  color: $text-primary !important;
+  th.el-table__cell {
+    background:     $table-header-bg !important;
+    color:          $text-secondary !important;
+    font-size:      11px !important;
+    font-weight:    700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border-bottom:  1px solid $card-border !important;
+  }
+  tr:hover > td { background: #fffaf7 !important; }
+  td.el-table__cell { border-bottom-color: #f9f3ee !important; }
+}
+
+.el-dialog {
+  border-radius: 14px !important;
+  overflow:      hidden;
+}
+.el-dialog__header {
+  background:    $table-header-bg !important;
+  border-bottom: 1px solid $card-border;
+  padding:       16px 24px !important;
+}
+.el-dialog__title  { color: $text-primary !important; font-weight: 700 !important; }
+.el-dialog__body   { padding: 24px !important; }
+.el-dialog__footer { border-top: 1px solid $card-border !important; padding: 16px 24px !important; }
+
+.el-pagination {
+  .el-pager li          { border-radius: 6px !important; color: $text-secondary !important; }
+  .el-pager li.active   { background: $brand-accent !important; color: #fff !important; border-color: $brand-accent !important; }
+  button                { border-radius: 6px !important; }
+}
+
+.el-form-item__label { color: $text-secondary !important; font-weight: 600 !important; font-size: 12px !important; }
+
+.el-tabs__item              { color: $text-secondary !important; }
+.el-tabs__item.is-active    { color: $brand-accent !important; }
+.el-tabs__active-bar        { background-color: $brand-accent !important; }
+
+.el-radio__input.is-checked .el-radio__inner        { border-color: $brand-accent !important; background: $brand-accent !important; }
+.el-radio__input.is-checked + .el-radio__label      { color: $brand-accent !important; }
+.el-checkbox__input.is-checked .el-checkbox__inner  { border-color: $brand-accent !important; background: $brand-accent !important; }
+.el-switch.is-checked .el-switch__core              { border-color: $brand-accent !important; background-color: $brand-accent !important; }
+.el-badge__content                                  { background-color: $danger-color !important; }
+.el-notification                                    { border-radius: 12px !important; border-color: $card-border !important; }
+
+// ── Utility Classes ────────────────────────────────────────
+.wm-card {
+  background:  $card-bg;
+  border-radius: 14px;
+  border:      1px solid $card-border;
+  box-shadow:  0 2px 8px rgba(44, 26, 14, 0.05);
+}
+
+.wm-filter-bar {
+  background:    $card-bg;
+  border-radius: 12px;
+  padding:       16px 20px;
+  border:        1px solid $card-border;
+  margin-bottom: 16px;
+  display:       flex;
+  align-items:   center;
+  gap:           12px;
+  flex-wrap:     wrap;
+  box-shadow:    0 1px 4px rgba(44, 26, 14, 0.04);
+
+  .filter-label {
+    color:          $text-secondary;
+    font-size:      12px;
+    font-weight:    600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space:    nowrap;
+  }
+  .filter-actions { margin-left: auto; display: flex; gap: 8px; }
+}
+
+.wm-table-card {
+  @extend .wm-card;
+  overflow: hidden;
+  margin-top: 0;
+
+  .table-toolbar {
+    display:       flex;
+    align-items:   center;
+    gap:           10px;
+    padding:       14px 20px;
+    border-bottom: 1px solid $card-border;
+    background:    $table-header-bg;
+  }
+  .toolbar-right { margin-left: auto; display: flex; gap: 8px; }
+  .selected-info { color: $text-secondary; font-size: 13px; }
+}
+
+.wm-page-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  margin-bottom:   16px;
+}
+.wm-page-title { color: $text-primary; font-size: 20px; font-weight: 700; }
+
+.wm-badge {
+  display:     inline-flex;
+  align-items: center;
+  gap:         4px;
+  font-size:   11px;
+  font-weight: 600;
+  padding:     4px 10px;
+  border-radius: 20px;
+  .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+  &.badge-green  { background: #f0fdf4; color: #16a34a; }
+  &.badge-gray   { background: #f5f5f5; color: $text-secondary; }
+  &.badge-orange { background: #fff7ed; color: #ea580c; }
+  &.badge-blue   { background: #eff6ff; color: $info-color; }
+}
+
+.wm-action-edit   { font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; color: $info-color;   background: #eff6ff; cursor: pointer; }
+.wm-action-toggle { font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; color: #ea580c;       background: #fff7ed; cursor: pointer; }
+.wm-action-enable { font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; color: $success-color; background: #f0fdf4; cursor: pointer; }
+.wm-action-delete { font-size: 12px; font-weight: 600; padding: 4px 8px; border-radius: 6px; color: $danger-color; background: #fff5f5; cursor: pointer; }
+
+.wm-pagination-wrap {
+  display:         flex;
+  align-items:     center;
+  justify-content: flex-end;
+  padding:         14px 20px;
+  border-top:      1px solid $card-border;
+  background:      $table-header-bg;
+  border-radius:   0 0 14px 14px;
+}
+
+// ── Dashboard Cards ────────────────────────────────────────
+.wm-stat-card {
+  @extend .wm-card;
+  padding: 20px;
+  .stat-icon {
+    width: 40px; height: 40px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; margin-bottom: 12px;
+  }
+  .stat-label { color: $text-secondary; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+  .stat-value { color: $text-primary; font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 6px; }
+  .stat-delta { font-size: 12px; font-weight: 600; }
+  .stat-delta.up   { color: $success-color; }
+  .stat-delta.down { color: $danger-color; }
+}

@@ -1,24 +1,22 @@
 /* Element Variables */
 
-// Override Element UI variables
-
-$--color-success: #13ce66;
-$--color-danger: #ff4949;
-$--color-info: #5d5d5d;
-$--button-font-weight: 400;
-$--border-color-light: #dfe4ed;
-$--border-color-lighter: #e6ebf5;
-$--table-border:1px solid #dfe6ec;
-$--color-primary:#FFC200;
-$--color-warning:#FFB302;
-$--color-text-primary:#20232A;
-$--color-text-regular:#818693;
-$--color-text-placeholder:#BAC0CD;
-$--border-color-base:#D8DDE3;
-$--background-color-base:#F3F4F7;
+$--color-primary:          #f97316;
+$--color-success:          #22c55e;
+$--color-warning:          #fbbf24;
+$--color-danger:           #ef4444;
+$--color-info:             #9a7c68;
+$--button-font-weight:     600;
+$--border-color-base:      #e8d5c4;
+$--border-color-light:     #f0e8e0;
+$--border-color-lighter:   #f5ede6;
+$--table-border:           1px solid #f0e8e0;
+$--color-text-primary:     #2c1a0e;
+$--color-text-regular:     #9a7c68;
+$--color-text-placeholder: #b8a090;
+$--background-color-base:  #f5f0eb;
 
 // Icon font path, required
 $--font-path: '~element-ui/lib/theme-chalk/fonts';
 
-// Apply overrided variables in Element UI
+// Apply overridden variables in Element UI
 @import '~element-ui/packages/theme-chalk/src/index';
