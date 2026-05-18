@@ -20,7 +20,7 @@
         <router-link to="/order" class="nav-item" active-class="nav-item--active">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 3a1 1 0 011-1h10a1 1 0 011 1v1H2V3zm0 3h12v7a1 1 0 01-1 1H3a1 1 0 01-1-1V6z"/></svg>
           <span v-if="!isCollapse">Orders</span>
-          <span v-if="!isCollapse && $store.state.app.statusNumber > 0" class="nav-badge">{{ $store.state.app.statusNumber > 99 ? '99+' : $store.state.app.statusNumber }}</span>
+          <span v-if="!isCollapse && statusNumber > 0" class="nav-badge">{{ statusNumber > 99 ? '99+' : statusNumber }}</span>
         </router-link>
         <router-link to="/statistics" class="nav-item" active-class="nav-item--active">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 11l3-4 3 2 3-5 3 3v4H1z"/></svg>
@@ -53,7 +53,7 @@
         <router-link to="/inform" class="nav-item" active-class="nav-item--active">
           <svg class="nav-icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-5 5v3l-1.5 2H14.5L13 9V6a5 5 0 00-5-5zm0 14a2 2 0 01-2-2h4a2 2 0 01-2 2z"/></svg>
           <span v-if="!isCollapse">Notifications</span>
-          <span v-if="!isCollapse && $store.state.app.statusNumber > 0" class="nav-badge">{{ $store.state.app.statusNumber > 99 ? '99+' : $store.state.app.statusNumber }}</span>
+          <span v-if="!isCollapse && statusNumber > 0" class="nav-badge">{{ statusNumber > 99 ? '99+' : statusNumber }}</span>
         </router-link>
       </div>
     </nav>
@@ -72,12 +72,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { AppModule } from '@/store/modules/app'
 import { UserModule } from '@/store/modules/user'
-import variables from '@/styles/_variables.scss'
-import { getSidebarStatus, setSidebarStatus } from '@/utils/cookies'
-import Cookies from 'js-cookie'
 import { getStatus } from '@/api/users'
 
 @Component({
@@ -85,40 +82,21 @@ import { getStatus } from '@/api/users'
   components: {}
 })
 export default class extends Vue {
-  private restKey: number = 0
   private businessStatus = 1
 
-  async fetchStatus() {
+  private async fetchStatus(): Promise<void> {
     try {
       const { data } = await getStatus()
       this.businessStatus = data.data
     } catch (e) {
-      // silently fail — status footer is non-critical
+      if (process.env.NODE_ENV !== 'production') {
+        console.warn('[Sidebar] fetchStatus failed:', e)
+      }
     }
   }
 
   mounted() {
     this.fetchStatus()
-  }
-
-  get name() {
-    return (UserModule.userInfo as any).name
-      ? (UserModule.userInfo as any).name
-      : JSON.parse(Cookies.get('user_info') as any).name
-  }
-  get defOpen() {
-    let path = ['/']
-    this.routes.forEach((n: any, i: number) => {
-      if (n.meta.roles && n.meta.roles[0] === this.roles[0]) {
-        path.splice(0, 1, n.path)
-      }
-    })
-    return path
-  }
-
-  get defAct() {
-    let path = this.$route.path
-    return path
   }
 
   get sidebar() {
@@ -129,23 +107,8 @@ export default class extends Vue {
     return UserModule.roles
   }
 
-  get routes() {
-    let routes = JSON.parse(
-      JSON.stringify([...(this.$router as any).options.routes])
-    )
-    console.log('-=-=routes=-=-=', routes)
-    console.log('-=-=routes=-=-=', this.roles[0])
-    let menuList = []
-    let menu = routes.find(item => item.path === '/')
-    if (menu) {
-      menuList = menu.children
-    }
-    console.log('-=-=routes=-wwww=-=', routes)
-    return menuList
-  }
-
-  get variables() {
-    return variables
+  get statusNumber() {
+    return AppModule.statusNumber
   }
 
   get isCollapse() {
