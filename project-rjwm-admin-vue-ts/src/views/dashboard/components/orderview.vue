@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <h2 class="homeTitle">
-      订单管理<i>{{ days[1] }}</i
-      ><span><router-link to="/order">订单明细</router-link></span>
+      Order Management<i>{{ days[1] }}</i
+      ><span><router-link to="/order">Order Details</router-link></span>
     </h2>
     <div class="orderviewBox">
       <ul>
         <li>
           <span class="status"
-            ><i class="iconfont icon-waiting"></i>待接单</span
+            ><i class="iconfont icon-waiting"></i>Pending</span
           >
           <span class="num tip"
             ><router-link to="/order?status=2">{{
@@ -18,7 +18,7 @@
         </li>
         <li>
           <span class="status"
-            ><i class="iconfont icon-staySway"></i>待派送</span
+            ><i class="iconfont icon-staySway"></i>For Delivery</span
           >
           <span class="num tip"
             ><router-link to="/order?status=3">{{
@@ -28,7 +28,7 @@
         </li>
         <li>
           <span class="status"
-            ><i class="iconfont icon-complete"></i>已完成</span
+            ><i class="iconfont icon-complete"></i>Completed</span
           >
           <span class="num"
             ><router-link to="/order?status=5">{{
@@ -37,7 +37,7 @@
           >
         </li>
         <li>
-          <span class="status"><i class="iconfont icon-cancel"></i>已取消</span>
+          <span class="status"><i class="iconfont icon-cancel"></i>Cancelled</span>
           <span class="num"
             ><router-link to="/order?status=6">{{
               orderviewData.cancelledOrders
@@ -45,7 +45,7 @@
           >
         </li>
         <li>
-          <span class="status"><i class="iconfont icon-all"></i>全部订单</span>
+          <span class="status"><i class="iconfont icon-all"></i>All Orders</span>
           <span class="num"
             ><router-link to="/order">{{
               orderviewData.allOrders

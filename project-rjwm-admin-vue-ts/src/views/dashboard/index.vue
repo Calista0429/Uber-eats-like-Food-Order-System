@@ -116,5 +116,13 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.dashboard-container { padding: 0; }
+.homeMain {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  & > * { flex: 1; min-width: 0; }
+}
+.homecon { }
 </style>
