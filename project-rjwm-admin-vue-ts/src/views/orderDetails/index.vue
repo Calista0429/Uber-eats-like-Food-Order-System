@@ -168,42 +168,42 @@ export default class extends Vue {
   private cancelOrderReasonList = [
     {
       value: 1,
-      label: '订单量较多，暂时无法接单',
+      label: 'Too many orders, temporarily unable to accept',
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: 'Menu items sold out, temporarily unable to accept',
     },
     {
       value: 3,
-      label: '餐厅已打烊，暂时无法接单',
+      label: 'Restaurant closed, temporarily unable to accept',
     },
     {
       value: 0,
-      label: '自定义原因',
+      label: 'Custom Reason',
     },
   ]
 
   private cancelrReasonList = [
     {
       value: 1,
-      label: '订单量较多，暂时无法接单',
+      label: 'Too many orders, temporarily unable to accept',
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: 'Menu items sold out, temporarily unable to accept',
     },
     {
       value: 3,
-      label: '骑手不足无法配送',
+      label: 'Not enough riders to deliver',
     },
     {
       value: 4,
-      label: '客户电话取消',
+      label: 'Customer cancelled by phone',
     },
     {
       value: 0,
-      label: '自定义原因',
+      label: 'Custom Reason',
     },
   ]
   private orderList = [
@@ -367,7 +367,7 @@ export default class extends Vue {
     this.cancelDialogVisible = true
     this.orderId = row.id
     this.dialogOrderStatus = row.status
-    this.cancelDialogTitle = '拒绝'
+    this.cancelDialogTitle = 'Reject'
     this.dialogVisible = false
     this.cancelReason = ''
   }
@@ -397,7 +397,7 @@ export default class extends Vue {
     this.cancelDialogVisible = true
     this.orderId = row.id
     this.dialogOrderStatus = row.status
-    this.cancelDialogTitle = '取消'
+    this.cancelDialogTitle = 'Cancel'
     this.dialogVisible = false
     this.cancelReason = ''
   }
@@ -406,15 +406,15 @@ export default class extends Vue {
   confirmCancel(type) {
     if (!this.cancelReason) {
       return this.$message.error(`Please select a reason`)
-    } else if (this.cancelReason === '自定义原因' && !this.remark) {
+    } else if (this.cancelReason === 'Custom Reason' && !this.remark) {
       return this.$message.error(`Please enter a reason`)
     }
 
-    ;(this.cancelDialogTitle === '取消' ? orderCancel : orderReject)({
+    ;(this.cancelDialogTitle === 'Cancel' ? orderCancel : orderReject)({
       id: this.orderId,
       // eslint-disable-next-line standard/computed-property-even-spacing
-      [this.cancelDialogTitle === '取消' ? 'cancelReason' : 'rejectionReason']:
-        this.cancelReason === '自定义原因' ? this.remark : this.cancelReason,
+      [this.cancelDialogTitle === 'Cancel' ? 'cancelReason' : 'rejectionReason']:
+        this.cancelReason === 'Custom Reason' ? this.remark : this.cancelReason,
     })
       .then((res) => {
         if (res.data.code === 1) {
