@@ -1,198 +1,77 @@
 <template>
   <div class="dashboard-container">
-    <div class="informBox">
-      <ul class="conTab">
+    <div class="inform-header wm-card">
+      <ul class="tab-list">
         <li
           v-for="(item, index) in tabList"
           :key="index"
-          :class="activeIndex === index ? 'active' : ''"
+          :class="{ 'tab-active': activeIndex === index }"
           @click="handleClass(index)"
         >
           <el-badge
             class="item"
-            :class="ountUnread >= 10 ? 'badgeW' : ''"
-            :value="
-              ountUnread === 0 ? null : ountUnread > 99 ? '99+' : ountUnread
-            "
+            :value="ountUnread === 0 ? null : ountUnread > 99 ? '99+' : ountUnread"
             :hidden="!([1].includes(item.value) && ountUnread)"
-            >{{ item.label }}</el-badge
-          >
+          >{{ item.label }}</el-badge>
         </li>
       </ul>
-
       <el-button
-        icon="iconfont icon-clear"
-        class="right-el-button"
         v-if="status === 1 && baseData.length > 0"
+        size="small"
+        class="mark-all-btn"
         @click="handleBatch"
-        >全部已读</el-button
-      >
-      <el-button
-        icon="iconfont icon-clear"
-        class="right-el-button onbutton"
-        disabled
-        v-else
-        >全部已读</el-button
-      >
+      >Mark All as Read</el-button>
+      <el-button v-else size="small" disabled class="mark-all-btn">Mark All as Read</el-button>
     </div>
-    <div class="container newBox" :class="{ hContainer: baseData.length }">
-      <div class="informList" v-if="baseData.length > 0">
-        <div v-for="(item, index) in baseData" :key="index">
-          <!-- 待接单 -->
-          <div class="item" v-if="item.type === 1">
-            <div class="tit">
-              <span>【待接单】</span>{{ item.arrNew[0]
-              }}<span class="fontOrderTip" @click="handleSetStatus(item.id)">
-                <router-link :to="'/order?status=' + 2">{{
-                  item.arrNew[1]
-                }}</router-link></span
-              >{{ item.arrNew[2]
-              }}<span class="time">{{ item.createTime }}</span>
-            </div>
-          </div>
-          <div class="item" v-if="item.type === 2">
-            <div class="tit">
-              <i>急</i><span>【待接单】</span>{{ item.arrNew[0]
-              }}<span class="fontOrderTip" @click="handleSetStatus(item.id)"
-                ><router-link :to="'/order?status=' + 2">{{
-                  item.arrNew[1]
-                }}</router-link></span
-              >{{ item.arrNew[2]
-              }}<span class="time">{{ item.createTime }}</span>
-            </div>
-          </div>
-          <!-- end -->
-          <!-- 待派送 -->
-          <div class="item" v-if="item.type === 3">
-            <div class="tit">
-              <span>【待派送】</span>{{ item.arrNew[0]
-              }}<span class="fontOrderTip" @click="handleSetStatus(item.id)"
-                ><router-link :to="'/order?status=' + 2">{{
-                  item.arrNew[1]
-                }}</router-link></span
-              >{{ item.arrNew[2]
-              }}<span class="time">{{ item.createTime }}</span>
-            </div>
-          </div>
-          <!-- end -->
-          <!-- 催单 -->
-          <div
-            class="item"
-            v-if="item.type === 4"
-            @mouseenter="toggleShow(item.id, index)"
-            @mouseleave="mouseLeaves(index)"
-          >
-            <div :class="isActive ? 'titAlready' : ''">
-              <div class="tit">
-                <span>【催单】</span>{{ item.arrNew[0] }}
-                <!-- <span
-                  class="fontOrderTip"
-                  >去处理</span
-                > -->
-                <span class="time">{{ item.createTime }}</span>
-              </div>
-              <div v-if="shopShow && showIndex === index" class="orderInfo">
-                <p>
-                  <span
-                    ><label>下单时间：</label>{{ item.details.orderTime }}</span
-                  ><span
-                    ><label>预计送达时间：</label
-                    >{{ item.details.estimatedDeliveryTime }}</span
-                  >
-                </p>
-                <p>
-                  {{ item.details.consignee }}，{{ item.details.phone }}，{{
-                    item.details.address
-                  }}
-                </p>
-                <p>
-                  <span
-                    ><label>菜品：</label>{{ item.details.orderDishes }}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
-          <!-- end -->
-          <!-- <div class="item" v-if="item.type === 4 && isActive && status === 1">
-            <div class="titAlready">
-              <div class="tit">
-                <span>【催单】</span>{{ item.arrNew[0] }}
-                <span class="time">{{ item.createTime }}</span>
-              </div>
-            </div>
-          </div> -->
-          <!-- 闭店 -->
-          <!-- <div class="item" v-if="item.type === 5 && isActive && status === 1">
-            <div class="titAlready">
-              <div class="tit">
-                <span>【今日数据】</span>认真工作的同时也要好好生活。<span
-                  class="time"
-                  >{{ item.createTime }}</span
-                >
-              </div>
-            </div>
-          </div> -->
-          <div
-            class="item"
-            v-if="item.type === 5"
-            @mouseenter="toggleShow(item.id, index)"
-            @mouseleave="mouseLeaves(index)"
-          >
-            <div :class="isActive ? 'titAlready' : ''">
-              <div class="tit">
-                <span>【今日数据】</span>认真工作的同时也要好好生活。<span
-                  class="time"
-                  >{{ item.createTime }}</span
-                >
-              </div>
-              <div v-if="shopShow && showIndex === index" class="orderInfo">
-                <p>
-                  <span
-                    ><label>营业额：</label>{{ item.details.turnover }}</span
-                  >
-                  <span
-                    ><label>有效订单：</label
-                    >{{ item.details.validOrderCount }}笔</span
-                  >
-                  <span
-                    ><label>订单完成率：</label
-                    >{{ item.details.orderCompletionRate }}</span
-                  >
-                </p>
-                <p>
-                  <span
-                    ><label>今日新增用户：</label
-                    >{{ item.details.newUsers }}</span
-                  >
-                  <span
-                    ><label>今日取消：</label
-                    >{{ item.details.cancelledOrders }}笔</span
-                  >
-                  <span
-                    ><label>今日取消金额：</label>￥{{
-                      item.details.cancelledAmount
-                    }}</span
-                  >
-                </p>
-              </div>
-            </div>
-          </div>
+
+    <div class="inform-list wm-card" v-if="baseData.length > 0">
+      <div v-for="(item, index) in baseData" :key="index" class="inform-item">
+        <!-- type 1: Pending order -->
+        <div v-if="item.type === 1" class="inform-content">
+          <span class="inform-tag tag-pending">Pending</span>
+          {{ item.arrNew[0] }}
+          <router-link :to="'/order?status=2'" class="inform-link" @click.native="handleSetStatus(item.id)">
+            {{ item.arrNew[1] }}
+          </router-link>
+          {{ item.arrNew[2] }}
+          <span class="inform-time">{{ item.createTime }}</span>
         </div>
-        <!-- end -->
+        <!-- type 2: Urgent pending order -->
+        <div v-if="item.type === 2" class="inform-content">
+          <span class="inform-tag tag-urgent">Urgent</span>
+          <span class="inform-tag tag-pending">Pending</span>
+          {{ item.arrNew[0] }}
+          <router-link :to="'/order?status=2'" class="inform-link" @click.native="handleSetStatus(item.id)">
+            {{ item.arrNew[1] }}
+          </router-link>
+          {{ item.arrNew[2] }}
+          <span class="inform-time">{{ item.createTime }}</span>
+        </div>
+        <!-- type 3: For delivery -->
+        <div v-if="item.type === 3" class="inform-content">
+          <span class="inform-tag tag-reminder">Delivery</span>
+          {{ item.arrNew[0] }}
+          <router-link :to="'/order?status=2'" class="inform-link" @click.native="handleSetStatus(item.id)">
+            {{ item.arrNew[1] }}
+          </router-link>
+          {{ item.arrNew[2] }}
+          <span class="inform-time">{{ item.createTime }}</span>
+        </div>
+        <!-- type 4: Reminder -->
+        <div v-if="item.type === 4" class="inform-content">
+          <span class="inform-tag tag-reminder">Reminder</span>
+          {{ item.arrNew[0] }}
+          <span class="inform-time">{{ item.createTime }}</span>
+        </div>
+        <!-- type 5: Daily summary -->
+        <div v-if="item.type === 5" class="inform-content">
+          <span class="inform-tag tag-pending">Daily Summary</span>
+          {{ item.content }}
+          <span class="inform-time">{{ item.createTime }}</span>
+        </div>
       </div>
-      <Empty v-else :is-search="isSearch" />
-      <el-pagination
-        v-if="counts > 10"
-        class="pageList"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="pageSize"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="counts"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-      />
     </div>
+    <div v-else class="empty-hint wm-card">No notifications.</div>
   </div>
 </template>
 
@@ -231,12 +110,12 @@ export default class extends Vue {
   get tabList() {
     return [
       {
-        label: '未读',
+        label: 'Unread',
         value: 1,
         // num: this.ountUnread,
       },
       {
-        label: '已读',
+        label: 'Read',
         value: 2,
         // num: 0,
       },
@@ -367,30 +246,53 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
-    .container {
-      background: #fff;
-      position: relative;
-      z-index: 1;
-      padding: 0 30px;
-      border-radius: 4px;
-      // min-height: 650px;
-      height: calc(100% - 55px);
-      overflow: hidden;
-      &.newBox {
-        // padding:0;
-        .pageList {
-          border-top: 1px solid #f3f4f7;
-          padding: 40px;
-          margin-top: 0;
-        }
-      }
-    }
-    .hContainer {
-      height: auto !important;
-    }
+.inform-header {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+.tab-list {
+  display: flex;
+  list-style: none;
+  gap: 0;
+  flex: 1;
+  li {
+    padding: 16px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #9a7c68;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    &:hover { color: #f97316; }
+  }
+  .tab-active {
+    color: #f97316;
+    border-bottom-color: #f97316;
+    font-weight: 600;
   }
 }
+.mark-all-btn { flex-shrink: 0; }
+.inform-list { padding: 8px 0; }
+.inform-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid #f5ede6;
+  &:last-child { border-bottom: none; }
+}
+.inform-content { font-size: 13px; color: #2c1a0e; line-height: 1.6; }
+.inform-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-right: 6px;
+}
+.tag-pending  { background: #fff7ed; color: #ea580c; }
+.tag-urgent   { background: #fff5f5; color: #ef4444; }
+.tag-reminder { background: #eff6ff; color: #3b82f6; }
+.inform-link  { color: #f97316; font-weight: 600; text-decoration: none; &:hover { text-decoration: underline; } }
+.inform-time  { float: right; color: #b8a090; font-size: 11px; }
+.empty-hint   { text-align: center; padding: 40px; color: #9a7c68; }
 </style>
