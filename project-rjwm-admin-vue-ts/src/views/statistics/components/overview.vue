@@ -1,13 +1,13 @@
 <template>
   <div class="container">
-    <h2 class="homeTitle">数据概览</h2>
+    <h2 class="homeTitle">Overview</h2>
     <div class="overviewBox">
       <ul>
         <li>
-          <p class="tit">营业额</p>
+          <p class="tit">Revenue</p>
           <p class="num">{{ overviewData.turnover }}</p>
           <p class="tip">
-            同比增长<span v-if="overviewData.turnoverGrowth">
+            YoY Growth<span v-if="overviewData.turnoverGrowth">
               <span
                 class="red"
                 :class="overviewData.turnoverGrowth > 0 ? '' : 'green'"
@@ -22,10 +22,10 @@
           </p>
         </li>
         <li>
-          <p class="tit">有效订单</p>
+          <p class="tit">Valid Orders</p>
           <p class="num">{{ overviewData.validOrderCount }}</p>
           <p class="tip">
-            同比增长<span v-if="overviewData.validOrderCountGrowth">
+            YoY Growth<span v-if="overviewData.validOrderCountGrowth">
               <span
                 class="red"
                 :class="overviewData.validOrderCountGrowth > 0 ? '' : 'green'"
@@ -40,12 +40,12 @@
           </p>
         </li>
         <li>
-          <p class="tit">订单完成率</p>
+          <p class="tit">Completion Rate</p>
           <p class="num">
             {{ (overviewData.orderCompletionRate * 100).toFixed(2) }}%
           </p>
           <p class="tip">
-            同比增长<span v-if="overviewData.orderCompletionRateGrowth">
+            YoY Growth<span v-if="overviewData.orderCompletionRateGrowth">
               <span
                 class="red"
                 :class="
@@ -62,10 +62,10 @@
           </p>
         </li>
         <li>
-          <p class="tit">平均客单价</p>
+          <p class="tit">Avg. Order Value</p>
           <p class="num">{{ overviewData.unitPrice.toFixed(2) }}</p>
           <p class="tip">
-            同比增长<span v-if="overviewData.unitPriceGrowth">
+            YoY Growth<span v-if="overviewData.unitPriceGrowth">
               <span
                 class="red"
                 :class="overviewData.unitPriceGrowth > 0 ? '' : 'green'"
@@ -80,10 +80,10 @@
           </p>
         </li>
         <li>
-          <p class="tit">用户总量</p>
+          <p class="tit">Total Users</p>
           <p class="num">{{ overviewData.totalUsers }}</p>
           <!-- <p class="tip">
-            同比增长：<span v-if="overviewData.newUsersGrowth">
+            YoY Growth：<span v-if="overviewData.newUsersGrowth">
               <span
                 class="red"
                 :class="overviewData.newUsersGrowth > 0 ? '' : 'green'"
@@ -98,10 +98,10 @@
           </p> -->
         </li>
         <li>
-          <p class="tit">新增用户</p>
+          <p class="tit">New Users</p>
           <p class="num">{{ overviewData.newUsers }}</p>
           <p class="tip">
-            同比增长<span v-if="overviewData.newUsersGrowth">
+            YoY Growth<span v-if="overviewData.newUsersGrowth">
               <span
                 class="red"
                 :class="overviewData.newUsersGrowth > 0 ? '' : 'green'"

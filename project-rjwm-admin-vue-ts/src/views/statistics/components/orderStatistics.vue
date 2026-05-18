@@ -1,27 +1,27 @@
 <template>
   <div class="container">
-    <h2 class="homeTitle">订单统计</h2>
+    <h2 class="homeTitle">Orders</h2>
     <div class="charBox">
       <div class="orderProportion">
         <div>
-          <p>订单完成率</p>
+          <p>Completion Rate</p>
           <p>{{ (orderdata.orderCompletionRate * 100).toFixed(1) }}%</p>
         </div>
         <div class="symbol">=</div>
         <div>
-          <p>有效订单</p>
+          <p>Valid Orders</p>
           <p>{{ orderdata.validOrderCount }}</p>
         </div>
         <div class="symbol">/</div>
         <div>
-          <p>订单总数</p>
+          <p>Total Orders</p>
           <p>{{ orderdata.totalOrderCount }}</p>
         </div>
       </div>
       <div id="ordermain" style="width: 100%; height: 300px"></div>
       <ul class="orderListLine">
-        <li class="one"><span></span>订单总数（个）</li>
-        <li class="three"><span></span>有效订单（个）</li>
+        <li class="one"><span></span>Total Orders</li>
+        <li class="three"><span></span>Valid Orders</li>
       </ul>
     </div>
   </div>
@@ -124,7 +124,7 @@ export default class extends Vue {
       ],
       series: [
         {
-          name: '订单总数',
+          name: 'Total Orders',
           type: 'line',
           // stack: 'Total',
           smooth: false, //否平滑曲线
@@ -148,7 +148,7 @@ export default class extends Vue {
           data: this.orderdata.data.orderCountList,
         },
         {
-          name: '有效订单',
+          name: 'Valid Orders',
           type: 'line',
           // stack: 'Total',
           smooth: false, //否平滑曲线

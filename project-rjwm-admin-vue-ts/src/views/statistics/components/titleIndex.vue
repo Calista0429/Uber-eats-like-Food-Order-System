@@ -16,7 +16,7 @@
     </div>
     <div class="get-time">
       <p>
-        已选时间：{{ tateData[0] }} 至
+        Selected: {{ tateData[0] }} to
         {{ tateData[tateData.length - 1] }}
       </p>
     </div>
@@ -24,7 +24,7 @@
       icon="iconfont icon-download"
       class="right-el-button"
       @click="handleExport"
-      >数据导出</el-button
+      >Export Data</el-button
     >
   </div>
 </template>
@@ -42,7 +42,7 @@ export default class extends Vue {
 
   nowIndex = 2 - 1
   value = []
-  tabsParam = ['昨日', '近7日', '近30日', '本周', '本月']
+  tabsParam = ['Yesterday', 'Last 7 Days', 'Last 30 Days', 'This Week', 'This Month']
   @Watch('flag')
   getNowIndex(val) {
     this.nowIndex = val
@@ -56,9 +56,9 @@ export default class extends Vue {
   //  数据导出
   /** 导出按钮操作 */
   handleExport() {
-    this.$confirm('是否确认导出最近30天运营数据?', '提示', {
-      confirmButtonText: '确定',
-      cancelButtonText: '取消',
+    this.$confirm('Export last 30 days of operational data?', 'Confirm', {
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
       type: 'warning',
     })
       .then(async function () {
@@ -67,7 +67,7 @@ export default class extends Vue {
         var a = document.createElement('a')
         document.body.appendChild(a)
         a.href = url
-        a.download = '运营数据统计报表.xlsx'
+        a.download = 'operational-report.xlsx'
         a.click()
         window.URL.revokeObjectURL(url)
       })
