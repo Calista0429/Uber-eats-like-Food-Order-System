@@ -26,7 +26,7 @@
       <div class="wm-table-card">
         <div class="table-toolbar">
           <div class="toolbar-right">
-            <el-button size="small" @click="deleteHandle('批量', null)">Delete Selected</el-button>
+            <el-button size="small" @click="deleteHandle('batch', null)">Delete Selected</el-button>
           </div>
         </div>
         <el-table v-if="tableData.length" :data="tableData" style="width:100%" @selection-change="handleSelectionChange">
@@ -62,7 +62,7 @@
                 style="margin-left:6px"
                 @click="statusHandle(scope.row)"
               >{{ String(scope.row.status) === '1' ? 'Disable' : 'Enable' }}</span>
-              <span class="wm-action-delete" style="margin-left:6px" @click="deleteHandle('单删', scope.row.id)">Delete</span>
+              <span class="wm-action-delete" style="margin-left:6px" @click="deleteHandle('single', scope.row.id)">Delete</span>
             </template>
           </el-table-column>
         </el-table>
@@ -167,7 +167,7 @@ export default class extends Vue {
 
   // 删除
   private deleteHandle(type: string, id: any) {
-    if (type === '批量' && id === null) {
+    if (type === 'batch' && id === null) {
       if (this.checkList.length === 0) {
         return this.$message.error('Please select items to delete')
       }
@@ -177,7 +177,7 @@ export default class extends Vue {
       cancelButtonText: 'Cancel',
       type: 'warning'
     }).then(() => {
-      deleteSetmeal(type === '批量' ? this.checkList.join(',') : id)
+      deleteSetmeal(type === 'batch' ? this.checkList.join(',') : id)
         .then(res => {
           if (res.data.code === 1) {
             this.$message.success('Deleted successfully!')
