@@ -1,93 +1,91 @@
 <template>
-  <div class="navbar">
-    <div class="statusBox">
-      <hamburger id="hamburger-container"
-                 :is-active="sidebar.opened"
-                 class="hamburger-container"
-                 @toggleClick="toggleSideBar" />
-      <span v-if="status===1"
-            class="businessBtn">营业中</span>
-      <span v-else
-            class="businessBtn closing">打烊中</span>
+  <div class="wm-navbar">
+    <!-- Left: Hamburger + Breadcrumb -->
+    <div class="navbar-left">
+      <hamburger
+        id="hamburger-container"
+        :is-active="sidebar.opened"
+        class="hamburger-btn"
+        @toggleClick="toggleSideBar"
+      />
+      <div class="breadcrumb">
+        <span class="breadcrumb-home">Home</span>
+        <span class="breadcrumb-sep">›</span>
+        <span class="breadcrumb-current">{{ $route.meta && $route.meta.title ? $route.meta.title : 'Dashboard' }}</span>
+      </div>
     </div>
 
-    <div :key="restKey"
-         class="right-menu">
-      <div class="rightStatus">
-        <audio ref="audioVo"
-               hidden>
-          <source src="./../../../assets/preview.mp3"
-                  type="audio/mp3">
-          </source>
-        </audio>
-        <audio ref="audioVo2"
-               hidden>
-          <source src="./../../../assets/reminder.mp3"
-                  type="audio/mp3">
-          </source>
-        </audio>
-        <span class="navicon operatingState"
-              @click="handleStatus"><i />营业状态设置</span>
-        <span class="navicon mesCenter">
-          <router-link to="/inform">
-          <i />
-          <el-badge class="item"
-
-          :class="$store.state.app.statusNumber >= 10 ? 'badgeW' : ''"
-                    :value="$store.state.app.statusNumber===0?null:($store.state.app.statusNumber > 99 ? '99+' : $store.state.app.statusNumber)"
-                    >通知中心</el-badge>
-          </router-link>
-        </span>
+    <!-- Right: Status + Notif + User -->
+    <div class="navbar-right">
+      <!-- Operating status toggle -->
+      <div class="status-toggle" @click="handleStatus">
+        <span class="status-indicator" :class="status === 1 ? 'is-open' : 'is-closed'" />
+        <span class="status-text">{{ status === 1 ? 'Open' : 'Closed' }}</span>
       </div>
-      <div class="avatar-wrapper">
-        <div :class="shopShow?'userInfo':''"
-             @mouseenter="toggleShow"
-             @mouseleave="mouseLeaves">
-          <el-button type="primary"
-                     :class="shopShow?'active':''">
-            {{ name }}<i class="el-icon-arrow-down" />
-          </el-button>
-          <div v-if="shopShow"
-               class="userList">
-            <p class="amendPwdIcon"
-               @click="handlePwd">
-              修改密码<i />
-            </p>
-            <p class="outLogin"
-               @click="logout">
-              退出登录<i />
-            </p>
+
+      <!-- Notifications -->
+      <router-link to="/inform" class="notif-btn">
+        <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a5 5 0 00-5 5v3l-1.5 2H14.5L13 9V6a5 5 0 00-5-5zm0 14a2 2 0 01-2-2h4a2 2 0 01-2 2z"/></svg>
+        <span v-if="$store.state.app.statusNumber > 0" class="notif-count">{{ $store.state.app.statusNumber > 99 ? '99+' : $store.state.app.statusNumber }}</span>
+      </router-link>
+
+      <!-- User menu -->
+      <div
+        class="user-chip"
+        :class="{ 'is-open': shopShow }"
+        @mouseenter="toggleShow"
+        @mouseleave="mouseLeaves"
+      >
+        <div class="user-avatar">{{ name ? name.charAt(0).toUpperCase() : 'A' }}</div>
+        <span class="user-name">{{ name }}</span>
+        <svg class="chevron" :class="{ rotated: shopShow }" width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2 4l4 4 4-4"/></svg>
+
+        <div v-if="shopShow" class="user-dropdown">
+          <div class="dropdown-item" @click="handlePwd">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a4 4 0 014 4v1h1a1 1 0 011 1v7a1 1 0 01-1 1H3a1 1 0 01-1-1V7a1 1 0 011-1h1V5a4 4 0 014-4zm0 2a2 2 0 00-2 2v1h4V5a2 2 0 00-2-2z"/></svg>
+            Change Password
+          </div>
+          <div class="dropdown-item dropdown-item--danger" @click="logout">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M6 2H3a1 1 0 00-1 1v10a1 1 0 001 1h3M10 11l3-3-3-3M13 8H6"/></svg>
+            Sign Out
           </div>
         </div>
       </div>
     </div>
-    <!-- 营业状态弹层 -->
-    <el-dialog title="营业状态设置"
-               :visible.sync="dialogVisible"
-               width="25%"
-               :show-close="false">
+
+    <!-- Audio elements (keep for websocket notifications) -->
+    <audio ref="audioVo" hidden>
+      <source src="./../../../assets/preview.mp3" type="audio/mp3" />
+    </audio>
+    <audio ref="audioVo2" hidden>
+      <source src="./../../../assets/reminder.mp3" type="audio/mp3" />
+    </audio>
+
+    <!-- Operating Status Dialog -->
+    <el-dialog
+      title="Operating Status"
+      :visible.sync="dialogVisible"
+      width="420px"
+      :show-close="false"
+    >
       <el-radio-group v-model="setStatus">
         <el-radio :label="1">
-          营业中
-          <span>当前餐厅处于营业状态，自动接收任何订单，可点击打烊进入店铺打烊状态。</span>
+          Open for Orders
+          <span>Restaurant is open. Accepting all orders automatically. Click to switch to Closed.</span>
         </el-radio>
         <el-radio :label="0">
-          打烊中
-          <span>当前餐厅处于打烊状态，仅接受营业时间内的预定订单，可点击营业中手动恢复营业状态。</span>
+          Closed
+          <span>Restaurant is closed. Only accepting pre-orders during business hours. Click Open to resume.</span>
         </el-radio>
       </el-radio-group>
-      <span slot="footer"
-            class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="handleSave">确 定</el-button>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="handleSave">Save</el-button>
       </span>
     </el-dialog>
-    <!-- end -->
-    <!-- 修改密码 -->
-    <Password :dialog-form-visible="dialogFormVisible"
-              @handleclose="handlePwdClose" />
-    <!-- end -->
+
+    <!-- Change Password dialog -->
+    <Password :dialog-form-visible="dialogFormVisible" @handleclose="handlePwdClose" />
   </div>
 </template>
 
@@ -319,194 +317,109 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.navbar {
-  height: 60px;
-  // overflow: hidden;
+.wm-navbar {
+  height: 56px;
+  background: #fff;
+  border-bottom: 1px solid #f0e8e0;
+  box-shadow: 0 1px 4px rgba(44, 26, 14, 0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 20px 0 0;
   position: relative;
-  background: #ffc100;
+}
 
-  // box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  .statusBox {
-    float: left;
-    height: 100%;
-    align-items: center;
-    display: flex;
-  }
-  .hamburger-container {
-    // line-height: 54px;
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+}
+.hamburger-btn { padding: 0 12px; cursor: pointer; }
 
-    padding: 0 12px 0 20px;
-    cursor: pointer;
-    transition: background 0.3s;
-    -webkit-tap-highlight-color: transparent;
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+}
+.breadcrumb-home    { color: #9a7c68; }
+.breadcrumb-sep     { color: #d5c4b8; }
+.breadcrumb-current { color: #2c1a0e; font-weight: 600; }
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.025);
-    }
-  }
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
-  .breadcrumb-container {
-    float: left;
-  }
-  .right-menu {
-    float: right;
+.status-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid #e8d5c4;
+  background: #fef3e8;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6b4c3b;
+  transition: border-color 0.15s;
+  &:hover { border-color: #f97316; }
+}
+.status-indicator {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+  &.is-open  { background: #22c55e; animation: pulse 2s infinite; }
+  &.is-closed { background: #ef4444; }
+}
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.status-text { color: #2c1a0e; }
 
-    margin-right: 20px;
+.notif-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  background: #fef3e8; border: 1px solid #fed7aa;
+  display: flex; align-items: center; justify-content: center;
+  color: #9a7c68; text-decoration: none; position: relative;
+  &:hover { border-color: #f97316; color: #f97316; }
+}
+.notif-count {
+  position: absolute; top: -3px; right: -3px;
+  background: #ef4444; color: #fff;
+  font-size: 9px; font-weight: 700;
+  min-width: 16px; height: 16px; border-radius: 20px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 3px;
+}
 
-    color: #333333;
-    font-size: 14px;
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: #fef3e8; border: 1px solid #fed7aa;
+  border-radius: 20px; padding: 4px 12px 4px 4px;
+  cursor: pointer; position: relative;
+  transition: border-color 0.15s;
+  &:hover, &.is-open { border-color: #f97316; }
+}
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #f97316; color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; flex-shrink: 0;
+}
+.user-name { color: #2c1a0e; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.chevron { color: #9a7c68; transition: transform 0.2s; &.rotated { transform: rotate(180deg); } }
 
-    span {
-      padding: 0 10px;
-      width: 130px;
-      display: inline-block;
-      cursor: pointer;
-      &:hover {
-        background: rgba(255, 255, 255, 0.52);
-      }
-    }
-    .amendPwdIcon {
-      i {
-        width: 18px;
-        height: 18px;
-        background: url(./../../../assets/icons/btn_gaimi@2x.png) no-repeat;
-        background-size: contain;
-        margin-top: 8px;
-      }
-    }
-    .outLogin {
-      i {
-        width: 18px;
-        height: 18px;
-        background: url(./../../../assets/icons/btn_close@2x.png) no-repeat 100%
-          100%;
-        background-size: contain;
-        margin-top: 8px;
-      }
-    }
-    .outLogin {
-      cursor: pointer;
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
-      vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
-      }
-    }
-
-    // .avatar-container {
-    // margin-right: 30px;
-
-    // }
-  }
-  .rightStatus {
-    height: 100%;
-    line-height: 60px;
-    display: flex;
-    align-items: center;
-    float: left;
-  }
-  .avatar-wrapper {
-    margin-top: 14px;
-    margin-left: 18px;
-    position: relative;
-    // vertical-align: middle;
-    float: right;
-    width: 120px;
-    text-align: left;
-    .user-avatar {
-      cursor: pointer;
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
-    }
-
-    .el-icon-caret-bottom {
-      cursor: pointer;
-      position: absolute;
-      right: -20px;
-      top: 25px;
-      font-size: 12px;
-    }
-
-    .el-button--primary {
-      // height: 32px;
-      background: rgba(255, 255, 255, 0.52);
-      border-radius: 4px;
-      padding-top: 0px;
-      padding-bottom: 0px;
-      position: relative;
-      // top: -15px;
-      width: 120px;
-      // padding: 11px 12px 10px;
-      padding-left: 12px;
-      text-align: left;
-      border: 0 none;
-      height: 32px;
-      line-height: 32px;
-      &.active {
-        background: rgba(250, 250, 250, 0);
-        border: 0 none;
-        .el-icon-arrow-down {
-          transform: rotate(-180deg);
-        }
-      }
-    }
-  }
-  .businessBtn {
-    height: 22px;
-    line-height: 20px;
-    background: #fd3333;
-    border: 1px solid #ffffff;
-    border-radius: 4px;
-    display: inline-block;
-    padding: 0 6px;
-    color: #fff;
-  }
-  .closing {
-    background: #6a6a6a;
-  }
-  .navicon {
-    i {
-      display: inline-block;
-      width: 18px;
-      height: 18px;
-      vertical-align: sub;
-      margin: 0 4px 0 0;
-    }
-  }
-  .operatingState {
-    i {
-      background: url('./../../../assets/icons/time.png') no-repeat;
-      background-size: contain;
-    }
-  }
-  .mesCenter {
-    i {
-      background: url('./../../../assets/icons/msg.png') no-repeat;
-      background-size: contain;
-    }
-  }
-  // .el-badge__content.is-fixed {
-  //   top: 20px;
-  //   right: 6px;
-  // }
+.user-dropdown {
+  position: absolute; top: calc(100% + 6px); right: 0;
+  background: #fff; border: 1px solid #f0e8e0;
+  border-radius: 10px; box-shadow: 0 8px 24px rgba(44, 26, 14, 0.12);
+  min-width: 160px; overflow: hidden; z-index: 999;
+}
+.dropdown-item {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px; font-size: 13px; color: #2c1a0e;
+  cursor: pointer; transition: background 0.1s;
+  &:hover { background: #fef3e8; }
+  &--danger { color: #ef4444; &:hover { background: #fff5f5; } }
 }
 </style>
 <style lang="scss">

@@ -10,10 +10,11 @@ module.exports = {
     'transform': {
         '^.+\\.vue$': 'vue-jest',
         '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.tsx?$': 'ts-jest',
+        '^.+\\.js$': 'babel-jest'
     },
     'transformIgnorePatterns': [
-        '/node_modules/'
+        'node_modules/(?!@babel/runtime-corejs2/helpers/esm)'
     ],
     'moduleNameMapper': {
         '^@/(.*)$': '<rootDir>/src/$1'
@@ -43,7 +44,10 @@ module.exports = {
     ],
     'globals': {
         'ts-jest': {
-            'babelConfig': true
+            'babelConfig': true,
+            'tsConfig': {
+                'module': 'commonjs'
+            }
         }
     }
 };
