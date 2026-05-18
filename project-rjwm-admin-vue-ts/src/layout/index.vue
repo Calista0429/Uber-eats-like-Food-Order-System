@@ -57,9 +57,9 @@ export default class extends mixins(ResizeMixin) {
 
 .main-container {
   height: 100%;
-  background: #f3f4f7;
+  background: #f5f0eb;
   position: relative;
-  width: calc(100% - 190px);
+  width: calc(100% - 220px);
 }
 
 .drawer-bg {
@@ -75,14 +75,14 @@ export default class extends mixins(ResizeMixin) {
 .main-container {
   min-height: 100%;
   transition: margin-left 0.28s;
-  margin-left: $sideBarWidth;
-  background: $gray-5;
+  margin-left: 220px;
+  background: #f5f0eb;
   position: relative;
 }
 
 .sidebar-container {
   transition: width 0.28s;
-  width: $sideBarWidth !important;
+  width: 220px !important;
   height: 100%;
   position: fixed;
   // font-size: 0px;
@@ -112,7 +112,7 @@ export default class extends mixins(ResizeMixin) {
 
   .sidebar-container {
     transition: transform 0.28s;
-    width: $sideBarWidth !important;
+    width: 220px !important;
   }
 
   &.openSidebar {
@@ -124,7 +124,7 @@ export default class extends mixins(ResizeMixin) {
     .sidebar-container {
       pointer-events: none;
       transition-duration: 0.3s;
-      transform: translate3d(-$sideBarWidth, 0, 0);
+      transform: translate3d(-220px, 0, 0);
     }
   }
 }

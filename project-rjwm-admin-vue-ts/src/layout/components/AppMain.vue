@@ -20,7 +20,10 @@ export default class extends Vue {}
 
 <style lang="scss" scoped>
 .app-main {
-  height: calc(100% - 64px);
+  height: calc(100% - 56px);
   overflow-y: auto;
+  padding: 24px;
+  background: #f5f0eb;
+  box-sizing: border-box;
 }
 </style>
