@@ -17,12 +17,15 @@ $success-color:      #22c55e;
 $danger-color:       #ef4444;
 $info-color:         #3b82f6;
 
+// ── Base ───────────────────────────────────────────────────
+body, #app { background-color: $page-bg; }
+
 // ── Element UI Global Overrides ────────────────────────────
 .el-button--primary {
   background-color: $brand-accent !important;
   border-color:     $brand-accent !important;
   border-radius:    8px !important;
-  box-shadow:       0 4px 12px rgba(249, 115, 22, 0.3) !important;
+  box-shadow:       0 4px 12px rgba($brand-accent, 0.3) !important;
   &:hover, &:focus {
     background-color: darken($brand-accent, 8%) !important;
     border-color:     darken($brand-accent, 8%) !important;
@@ -51,7 +54,7 @@ $info-color:         #3b82f6;
   &::placeholder { color: $text-muted; }
   &:focus {
     border-color: $brand-accent !important;
-    box-shadow:   0 0 0 2px rgba(249, 115, 22, 0.15) !important;
+    box-shadow:   0 0 0 2px rgba($brand-accent, 0.15) !important;
   }
 }
 .el-select .el-input__inner { border-radius: 8px !important; }

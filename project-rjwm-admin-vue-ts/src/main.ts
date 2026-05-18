@@ -12,6 +12,11 @@ import 'vue-area-linkage/dist/index.css'
 
 import * as echarts from 'echarts'
 // 瑞吉外卖样式表
+// NOTE: newRJWMsystem.scss is superseded by warm-theme.scss for Element UI overrides.
+// It conflicts on: .el-button--primary, .el-button--text, .el-input__inner,
+// .el-form-item__label, .el-pagination, and .el-table selectors.
+// warm-theme.scss must be loaded AFTER this file to win the cascade.
+// Do not delete this import — it still provides .login-ruiji and .dashboard-container rules.
 import '@/styles/newRJWMsystem.scss'
 import '@/styles/icon/iconfont.css'
 import App from '@/App.vue'
