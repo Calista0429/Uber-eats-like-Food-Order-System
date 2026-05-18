@@ -30,8 +30,8 @@
         <el-form-item label="Gender:"
                       prop="sex">
           <el-radio-group v-model="ruleForm.sex">
-            <el-radio label="男">Male</el-radio>
-            <el-radio label="女">Female</el-radio>
+            <el-radio label="male">Male</el-radio>
+            <el-radio label="female">Female</el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="ID Number:"
@@ -78,7 +78,7 @@ export default class extends Vue {
   private ruleForm = {
     name: '',
     phone: '',
-    sex: '男',
+    sex: 'male',
     idNumber: '',
     username: ''
   }
@@ -164,7 +164,7 @@ export default class extends Vue {
     queryEmployeeById(id).then((res: any) => {
       if (res.data.code === 1) {
         this.ruleForm = res.data.data
-        this.ruleForm.sex = res.data.data.sex === '0' ? '女' : '男'
+        this.ruleForm.sex = res.data.data.sex === '0' ? 'female' : 'male'
       } else {
         this.$message.error(res.data.msg)
       }
@@ -177,7 +177,7 @@ export default class extends Vue {
         if (this.actionType === 'add') {
           const params = {
             ...this.ruleForm,
-            sex: this.ruleForm.sex === '女' ? '0' : '1'
+            sex: this.ruleForm.sex === 'female' ? '0' : '1'
           }
           addEmployee(params)
             .then((res: any) => {
@@ -190,7 +190,7 @@ export default class extends Vue {
                     username: '',
                     name: '',
                     phone: '',
-                    sex: '男',
+                    sex: 'male',
                     idNumber: ''
                   }
                 }
@@ -204,7 +204,7 @@ export default class extends Vue {
         } else {
           const params = {
             ...this.ruleForm,
-            sex: this.ruleForm.sex === '女' ? '0' : '1'
+            sex: this.ruleForm.sex === 'female' ? '0' : '1'
           }
           editEmployee(params)
             .then((res: any) => {

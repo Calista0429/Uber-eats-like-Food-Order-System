@@ -1,44 +1,44 @@
 <template>
   <el-dialog
-    title="修改密码"
+    title="Change Password"
     :visible.sync="dialogFormVisible"
     width="568px"
     class="pwdCon"
     @close="handlePwdClose()"
   >
-    <el-form :model="form" label-width="85px" :rules="rules" ref="form">
-      <el-form-item label="原始密码：" prop="oldPassword">
+    <el-form :model="form" label-width="140px" :rules="rules" ref="form">
+      <el-form-item label="Current Password:" prop="oldPassword">
         <el-input
           v-model="form.oldPassword"
           type="password"
-          placeholder="请输入"
+          placeholder="Enter current password"
         ></el-input>
       </el-form-item>
-      <el-form-item label="新密码：" prop="newPassword">
+      <el-form-item label="New Password:" prop="newPassword">
         <el-input
           v-model="form.newPassword"
           type="password"
-          placeholder="6 - 20位密码，数字或字母，区分大小写"
+          placeholder="6-20 characters, letters or digits, case-sensitive"
         ></el-input>
       </el-form-item>
-      <el-form-item label="确认密码：" prop="affirmPassword">
+      <el-form-item label="Confirm Password:" prop="affirmPassword">
         <el-input
           v-model="form.affirmPassword"
           type="password"
-          placeholder="请输入"
+          placeholder="Re-enter new password"
         ></el-input>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
-      <el-button @click="handlePwdClose()">取 消</el-button>
-      <el-button type="primary" @click="handleSave()">保 存</el-button>
+      <el-button @click="handlePwdClose()">Cancel</el-button>
+      <el-button type="primary" @click="handleSave()">Save</el-button>
     </div>
   </el-dialog>
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Form as ElForm, Input } from 'element-ui'
-// 接口
+// API
 import { editPassword } from '@/api/users'
 @Component({
   name: 'Password',
@@ -48,18 +48,18 @@ export default class extends Vue {
   private validatePwd = (rule: any, value: any, callback: Function) => {
     const reg = /^[0-9A-Za-z]{6,20}$/
     if (!value) {
-      callback(new Error('请输入'))
+      callback(new Error('This field is required'))
     } else if (!reg.test(value)) {
-      callback(new Error('6 - 20位密码，数字或字母，区分大小写'))
+      callback(new Error('6-20 characters, letters or digits, case-sensitive'))
     } else {
       callback()
     }
   }
   private validatePass2 = (rule, value, callback) => {
     if (!value) {
-      callback(new Error('请再次输入密码'))
+      callback(new Error('Please confirm your password'))
     } else if (value !== this.form.newPassword) {
-      callback(new Error('密码不一致，请重新输入密码'))
+      callback(new Error('Passwords do not match, please re-enter'))
     } else {
       callback()
     }

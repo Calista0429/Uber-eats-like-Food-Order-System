@@ -3,77 +3,77 @@
     <HeadLable :but-list="true">
       <div class="headBut">
         <span :class="{ act: act === 'day' }" @click="dateAct('day')"
-          >日报</span
+          >Daily</span
         >
         <span :class="{ act: act === 'week' }" @click="dateAct('week')"
-          >周报</span
+          >Weekly</span
         >
         <span :class="{ act: act === 'mouth' }" @click="dateAct('mouth')"
-          >月报</span
+          >Monthly</span
         >
       </div>
     </HeadLable>
     <div class="topLable">
       <div class="tit">
-        <span v-if="act === 'day'">统计时间：00：00 - 24：00</span>
+        <span v-if="act === 'day'">Statistics: 00:00 - 24:00</span>
         <span v-if="act === 'week'"
-          >统计时间：{{ stateTime }} -{{ endTime }}</span
+          >Statistics: {{ stateTime }} - {{ endTime }}</span
         >
         <span v-if="act === 'mouth'"
-          >统计时间：{{ stateTime }} -{{ endTime }}</span
+          >Statistics: {{ stateTime }} - {{ endTime }}</span
         >
       </div>
       <div v-if="act === 'day'" class="dataSelect">
         <div>
-          <span @click="checkaffterDate('day', 'before')">前一天</span>
+          <span @click="checkaffterDate('day', 'before')">Previous Day</span>
           <el-date-picker
             v-model="dataTime"
             size="mini"
             type="date"
-            placeholder="选择日期"
+            placeholder="Select date"
             value-format="yyyy-MM-dd"
             :clearable="false"
             @change="changeDate('day')"
           />
-          <span @click="checkaffterDate('day', 'after')">后一天</span>
+          <span @click="checkaffterDate('day', 'after')">Next Day</span>
         </div>
-        <div><span class="but" @click="init()">查看今日数据</span></div>
+        <div><span class="but" @click="init()">View Today's Data</span></div>
       </div>
       <div v-if="act === 'week'" class="dataSelect">
         <div>
-          <span @click="checkaffterDate('week', 'before')">前一周</span>
+          <span @click="checkaffterDate('week', 'before')">Previous Week</span>
           <el-date-picker
             v-model="dataTime"
             size="mini"
             type="week"
-            format="yyyy 第 WW 周"
+            format="yyyy Week WW"
             value-format="yyyy-MM-dd"
-            placeholder="选择周"
+            placeholder="Select week"
             :clearable="false"
             @change="changeDate('week')"
           />
-          <span @click="checkaffterDate('week', 'after')">后一周</span>
+          <span @click="checkaffterDate('week', 'after')">Next Week</span>
         </div>
         <div>
-          <span class="but" @click="dateAct('week')">查看本周数据</span>
+          <span class="but" @click="dateAct('week')">View This Week</span>
         </div>
       </div>
       <div v-if="act === 'mouth'" class="dataSelect">
         <div>
-          <span @click="checkaffterDate('mouth', 'before')">前一月</span>
+          <span @click="checkaffterDate('mouth', 'before')">Previous Month</span>
           <el-date-picker
             v-model="dataTime"
             size="mini"
             type="month"
             value-format="yyyy-MM-dd"
-            placeholder="选择月"
+            placeholder="Select month"
             :clearable="false"
             @change="changeDate('mouth')"
           />
-          <span @click="checkaffterDate('mouth', 'after')">后一月</span>
+          <span @click="checkaffterDate('mouth', 'after')">Next Month</span>
         </div>
         <div>
-          <span class="but" @click="dateAct('mouth')">查看本月数据</span>
+          <span class="but" @click="dateAct('mouth')">View This Month</span>
         </div>
       </div>
     </div>
@@ -89,9 +89,9 @@
             />
           </div>
           <div class="item">
-            <div>实收金额</div>
-            <div>{{ topData.payTotal / 100 || 0 }}元</div>
-            <div>较前一日 0%</div>
+            <div>Revenue Collected</div>
+            <div>¥{{ topData.payTotal / 100 || 0 }}</div>
+            <div>vs. prior day 0%</div>
           </div>
         </div>
         <div class="box noData">
@@ -99,9 +99,9 @@
             <img src="./../../assets/icons/jine_m-2@2x.png" width="50" alt="" />
           </div>
           <div class="item">
-            <div>未收金额</div>
-            <div>{{ topData.noPayTotal / 100 || 0 }}元</div>
-            <div>较前一日 0%</div>
+            <div>Uncollected</div>
+            <div>¥{{ topData.noPayTotal / 100 || 0 }}</div>
+            <div>vs. prior day 0%</div>
           </div>
         </div>
         <div class="box employee">
@@ -109,9 +109,9 @@
             <img src="./../../assets/icons/renshu@2x.png" width="46" alt="" />
           </div>
           <div class="item">
-            <div>就餐人数</div>
-            <div>{{ topData.totalPerson || 0 }}人</div>
-            <div>较前一日 0%</div>
+            <div>Diners</div>
+            <div>{{ topData.totalPerson || 0 }}</div>
+            <div>vs. prior day 0%</div>
           </div>
         </div>
       </div>
@@ -120,19 +120,19 @@
           <span
             :class="{ butAct: typeA == 1 }"
             @click="topActiveHandle('typeA')"
-            >按金额</span
+            >By Amount</span
           >
           <span
             :class="{ butAct: typeA == 2 }"
             @click="topActiveHandle('typeA')"
-            >按单数</span
+            >By Orders</span
           >
         </div>
         <Basic
           v-if="chartDataA"
           id="line"
           :chart-data="chartDataA"
-          title="时段销售趋势"
+          title="Hourly Sales Trend"
         />
       </div>
     </div>
@@ -143,35 +143,35 @@
             <span
               :class="{ butAct: typeB == 1 }"
               @click="topActiveHandle('typeB')"
-              >按金额</span
+              >By Amount</span
             >
             <span
               :class="{ butAct: typeB == 2 }"
               @click="topActiveHandle('typeB')"
-              >按销量</span
+              >By Sales</span
             >
           </div>
-          <BarChart :chart-data="chartDataC" title="菜品分类占比" />
+          <BarChart :chart-data="chartDataC" title="Dish Category Share" />
         </div>
         <div>
-          <MixedChart :chart-data="chartDataB" title="菜单销售排行" />
+          <MixedChart :chart-data="chartDataB" title="Dish Sales Ranking" />
         </div>
       </div>
     </div>
     <div class="container">
       <div class="chartBox">
         <div>
-          <BarChart id="bar" :chart-data="chartDataD" title="店内收款构成" />
+          <BarChart id="bar" :chart-data="chartDataD" title="Payment Breakdown" />
         </div>
         <div class="itemList">
-          <div class="title">优惠指标</div>
+          <div class="title">Discount Summary</div>
           <div class="item topLab">
-            <span>优惠合计</span><span>{{ discountTotal / 100 }}元</span
+            <span>Total Discounts</span><span>¥{{ discountTotal / 100 }}</span
             ><span>{{ discountPercentTotal * 100 }}%</span>
           </div>
           <div v-for="(item, index) in discount" :key="index" class="item">
             <span>{{ item.name }}</span
-            ><span>{{ item.value / 100 }}元</span
+            ><span>¥{{ item.value / 100 }}</span
             ><span>{{ item.percent * 100 }}%</span>
           </div>
         </div>
@@ -291,13 +291,13 @@ export default class extends Vue {
         let err = ''
         switch (val) {
           case 'day':
-            err = '已经是最后一天了'
+            err = 'Already at the latest day'
             break
           case 'week':
-            err = '已经是最后一周了'
+            err = 'Already at the latest week'
             break
           default:
-            err = '已经是最后一个月了'
+            err = 'Already at the latest month'
         }
         this.$message.error(err)
       }
@@ -307,7 +307,7 @@ export default class extends Vue {
   // 日期选择
   private changeDate(val: string) {
     if (this.stateTime == '' || this.endTime == '' || this.dataTime == null) {
-      this.$message.error('检索日期不能为空！')
+      this.$message.error('Search date cannot be empty!')
       this.dataTime = moment().format('YYYY-MM-DD')
       this.stateTime = moment().format('YYYY-MM-DD')
       this.endTime = moment().format('YYYY-MM-DD')
@@ -420,7 +420,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取菜品分类销售排行 - 菜品分类占比 -当日
@@ -455,7 +455,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 支付类型数据汇总 - 店内收款构成 - 当日
@@ -490,7 +490,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取当日菜品销售排行 - 销售排行图
@@ -506,7 +506,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取一天的销售数量 - 顶部数据
@@ -522,7 +522,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取当日各种优惠类型数据汇总
@@ -545,7 +545,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
 
@@ -580,7 +580,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取一定日期之内的销售趋势
@@ -640,7 +640,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
 
@@ -679,7 +679,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 获取时间范围之内的菜品销售排行
@@ -700,7 +700,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
 }

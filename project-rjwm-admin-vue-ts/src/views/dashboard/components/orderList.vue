@@ -386,7 +386,7 @@
             :placeholder="'Select ' + cancelDialogTitle + ' reason'"
           >
             <el-option
-              v-for="(item, index) in cancelDialogTitle === '取消'
+              v-for="(item, index) in cancelDialogTitle === 'Cancel'
                 ? cancelrReasonList
                 : cancelOrderReasonList"
               :key="index"
@@ -395,7 +395,7 @@
             />
           </el-select>
         </el-form-item>
-        <el-form-item v-if="cancelReason === '自定义原因'" label="Reason:">
+        <el-form-item v-if="cancelReason === 'Custom reason'" label="Reason:">
           <el-input
             v-model.trim="remark"
             type="textarea"
@@ -443,7 +443,7 @@ export default class extends Vue {
 
   private dialogVisible = false //详情弹窗
   private cancelDialogVisible = false //取消，拒单弹窗
-  private cancelDialogTitle = '' //取消，拒绝弹窗标题
+  private cancelDialogTitle = '' //Cancel, Reject dialog title
   private cancelReason = ''
   private remark = '' //自定义原因
   private diaForm = []
@@ -459,42 +459,42 @@ export default class extends Vue {
   private cancelOrderReasonList = [
     {
       value: 1,
-      label: '订单量较多，暂时无法接单',
+      label: 'Too many orders, temporarily unable to accept',
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: 'Dishes sold out, temporarily unable to accept',
     },
     {
       value: 3,
-      label: '餐厅已打烊，暂时无法接单',
+      label: 'Restaurant closed, temporarily unable to accept',
     },
     {
       value: 0,
-      label: '自定义原因',
+      label: 'Custom reason',
     },
   ]
 
   private cancelrReasonList = [
     {
       value: 1,
-      label: '订单量较多，暂时无法接单',
+      label: 'Too many orders, temporarily unable to accept',
     },
     {
       value: 2,
-      label: '菜品已销售完，暂时无法接单',
+      label: 'Dishes sold out, temporarily unable to accept',
     },
     {
       value: 3,
-      label: '骑手不足无法配送',
+      label: 'Insufficient riders, unable to deliver',
     },
     {
       value: 4,
-      label: '客户电话取消',
+      label: 'Customer called to cancel',
     },
     {
       value: 0,
-      label: '自定义原因',
+      label: 'Custom reason',
     },
   ]
   private orderList = [
@@ -577,7 +577,7 @@ export default class extends Vue {
     orderAccept({ id: this.orderId })
       .then((res) => {
         if (res.data.code === 1) {
-          this.$message.success('操作成功')
+          this.$message.success('Operation successful!')
           this.orderId = ''
           // this.dialogOrderStatus = 0
           this.dialogVisible = false
@@ -587,7 +587,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   //打开取消订单弹窗
@@ -596,7 +596,7 @@ export default class extends Vue {
     this.cancelDialogVisible = true
     this.orderId = row.id
     this.dialogOrderStatus = row.status
-    this.cancelDialogTitle = '取消'
+    this.cancelDialogTitle = 'Cancel'
     this.dialogVisible = false
     this.cancelReason = ''
   }
@@ -606,27 +606,27 @@ export default class extends Vue {
     this.cancelDialogVisible = true
     this.orderId = row.id
     this.dialogOrderStatus = row.status
-    this.cancelDialogTitle = '拒绝'
+    this.cancelDialogTitle = 'Reject'
     this.dialogVisible = false
     this.cancelReason = ''
   }
   //确认取消或拒绝订单并填写原因
   confirmCancel(type) {
     if (!this.cancelReason) {
-      return this.$message.error(`请选择${this.cancelDialogTitle}原因`)
-    } else if (this.cancelReason === '自定义原因' && !this.remark) {
-      return this.$message.error(`请输入${this.cancelDialogTitle}原因`)
+      return this.$message.error(`Please select a ${this.cancelDialogTitle} reason`)
+    } else if (this.cancelReason === 'Custom reason' && !this.remark) {
+      return this.$message.error(`Please enter a ${this.cancelDialogTitle} reason`)
     }
 
-    ;(this.cancelDialogTitle === '取消' ? orderCancel : orderReject)({
+    ;(this.cancelDialogTitle === 'Cancel' ? orderCancel : orderReject)({
       id: this.orderId,
       // eslint-disable-next-line standard/computed-property-even-spacing
-      [this.cancelDialogTitle === '取消' ? 'cancelReason' : 'rejectionReason']:
-        this.cancelReason === '自定义原因' ? this.remark : this.cancelReason,
+      [this.cancelDialogTitle === 'Cancel' ? 'cancelReason' : 'rejectionReason']:
+        this.cancelReason === 'Custom reason' ? this.remark : this.cancelReason,
     })
       .then((res) => {
         if (res.data.code === 1) {
-          this.$message.success('操作成功')
+          this.$message.success('Operation successful!')
           this.cancelDialogVisible = false
           this.orderId = ''
           // this.dialogOrderStatus = 0
@@ -636,7 +636,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
 
@@ -650,7 +650,7 @@ export default class extends Vue {
     ;(status === 3 ? deliveryOrder : completeOrder)(params)
       .then((res) => {
         if (res.data.code === 1) {
-          this.$message.success('操作成功')
+          this.$message.success('Operation successful!')
           this.orderId = ''
           // this.dialogOrderStatus = 0
           this.dialogVisible = false
@@ -660,7 +660,7 @@ export default class extends Vue {
         }
       })
       .catch((err) => {
-        this.$message.error('请求出错了：' + err.message)
+        this.$message.error('Request error: ' + err.message)
       })
   }
   // 查看详情

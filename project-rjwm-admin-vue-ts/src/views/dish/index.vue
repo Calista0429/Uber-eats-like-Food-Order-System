@@ -34,7 +34,7 @@
         <div class="table-toolbar">
           <span class="selected-info">{{ multipleSelection.length ? `${multipleSelection.length} selected` : '' }}</span>
           <div class="toolbar-right">
-            <el-button size="small" @click="deleteHandle('批量', null)">Delete Selected</el-button>
+            <el-button size="small" @click="deleteHandle('batch', null)">Delete Selected</el-button>
           </div>
         </div>
         <el-table
@@ -75,7 +75,7 @@
                 style="margin-left:6px"
                 @click="statusHandle(String(scope.row.status) === '1' ? '0' : '1', scope.row)"
               >{{ String(scope.row.status) === '1' ? 'Disable' : 'Enable' }}</span>
-              <span class="wm-action-delete" style="margin-left:6px" @click="deleteHandle('单', scope.row)">Delete</span>
+              <span class="wm-action-delete" style="margin-left:6px" @click="deleteHandle('single', scope.row)">Delete</span>
             </template>
           </el-table-column>
         </el-table>
@@ -186,7 +186,7 @@ export default class extends Vue {
 
   // Delete
   private deleteHandle(type: string, id: any) {
-    if (type === '批量' && id === null) {
+    if (type === 'batch' && id === null) {
       if (this.checkList.length === 0) {
         return this.$message.error('Please select items to delete')
       }
@@ -196,7 +196,7 @@ export default class extends Vue {
       cancelButtonText: 'Cancel',
       type: 'warning'
     }).then(() => {
-      const deleteId = type === '批量' ? this.checkList.join(',') : (id && id.id ? id.id : id)
+      const deleteId = type === 'batch' ? this.checkList.join(',') : (id && id.id ? id.id : id)
       deleteDish(deleteId)
         .then(res => {
           if (res && res.data && res.data.code === 1) {

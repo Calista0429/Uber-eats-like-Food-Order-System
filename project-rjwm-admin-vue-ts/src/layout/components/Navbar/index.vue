@@ -188,16 +188,16 @@ export default class extends Vue {
     console.log(socketUrl, 'socketUrl')
     if (typeof WebSocket == 'undefined') {
       that.$notify({
-        title: '提示',
-        message: '当前浏览器无法接收实时报警信息，请使用谷歌浏览器！',
+        title: 'Notice',
+        message: 'Your browser does not support real-time notifications. Please use Google Chrome.',
         type: 'warning',
         duration: 0,
       })
     } else {
       this.websocket = new WebSocket(socketUrl)
-      // 监听socket打开
+      // Listen for socket open
       this.websocket.onopen = function () {
-        console.log('浏览器WebSocket已打开')
+        console.log('WebSocket opened')
       }
       // 监听socket消息接收
       this.websocket.onmessage = function (msg) {
@@ -214,7 +214,7 @@ export default class extends Vue {
           that.$refs.audioVo2.play()
         }
         that.$notify({
-          title: jsonMsg.type === 1 ? '待接单' : '催单',
+          title: jsonMsg.type === 1 ? 'Pending Order' : 'Urgent Reminder',
           duration: 0,
           dangerouslyUseHTMLString: true,
           onClick: () => {
@@ -227,26 +227,25 @@ export default class extends Vue {
               location.reload()
             }, 100)
           },
-          // 这里也可以把返回信息加入到message中显示
           message: `${
             jsonMsg.type === 1
-              ? `<span>您有1个<span style=color:#419EFF>订单待处理</span>,${jsonMsg.content},请及时接单</span>`
-              : `${jsonMsg.content}<span style='color:#419EFF;cursor: pointer'>去处理</span>`
+              ? `<span>You have 1 <span style=color:#419EFF>order pending</span>, ${jsonMsg.content}, please accept it promptly</span>`
+              : `${jsonMsg.content}<span style='color:#419EFF;cursor: pointer'>Handle now</span>`
           }`,
         })
       }
-      // 监听socket错误
+      // Listen for socket error
       this.websocket.onerror = function () {
         that.$notify({
-          title: '错误',
-          message: '服务器错误，无法接收实时报警信息',
+          title: 'Error',
+          message: 'Server error: unable to receive real-time notifications',
           type: 'error',
           duration: 0,
         })
       }
-      // 监听socket关闭
+      // Listen for socket close
       this.websocket.onclose = function () {
-        console.log('WebSocket已关闭')
+        console.log('WebSocket closed')
       }
     }
   }
