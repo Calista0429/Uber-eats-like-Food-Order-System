@@ -15,8 +15,8 @@
   "subPackages": [],
   "window": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "苍穹外卖",
-    "navigationBarBackgroundColor": "#E95F3C",
+    "navigationBarTitleText": "Sky Takeout",
+    "navigationBarBackgroundColor": "#ff6b35",
     "backgroundColor": "#F8F8F8"
   },
   "usingComponents": {},

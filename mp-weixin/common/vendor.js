@@ -21132,21 +21132,21 @@ exports.splitMobile = splitMobile;var getLableVal = function getLableVal(item) {
 // 状态
 exports.getLableVal = getLableVal;var statusWord = function statusWord(status, time) {
   if (status === 1 && time > 0) {
-    return '待付款';
+    return 'Pending Payment';
   } else if (status === 6 || time < 0 && status === 1) {
-    return '已取消';
+    return 'Cancelled';
   }
   switch (status) {
     case 2:
-      return '待接单';
+      return 'Order Received';
     case 3:
-      return '待派送';
+      return 'Preparing';
     case 4:
-      return '派送中';
+      return 'On the Way';
     case 5:
-      return '已完成';
+      return 'Delivered';
     case 7:
-      return '已退款';}
+      return 'Refunded';}
 
 };
 // 倒计时
@@ -22148,7 +22148,7 @@ var _default = {
       console.log(this.$refs);
       this.showConfirm = false;
       this.openPopuos(type);
-      this.textTip = '请联系商家进行取消！';
+      this.textTip = 'Please contact the restaurant to cancel.';
     },
     // 联系商家进行退款弹层
     handleRefund: function handleRefund(type) {
@@ -28552,7 +28552,7 @@ var _default = {
         if (res.code === 1) {
           _this3.isPayment = true;
           _this3.showConfirm = true;
-          _this3.textTip = '您的订单已取消！';
+          _this3.textTip = 'Your order has been cancelled.';
           _this3.$refs.commonPopup.open(type);
           _this3.orderId = obj.id;
         }
@@ -28565,7 +28565,7 @@ var _default = {
       } else {
         this.showConfirm = false;
         this.$refs.commonPopup.open(type);
-        this.textTip = '请联系商家进行取消！';
+        this.textTip = 'Please contact the restaurant to cancel.';
       }
     },
     // 再来一单
@@ -28584,17 +28584,17 @@ var _default = {
     statusWord: function statusWord(status) {
       console.log(this.timeout, status);
       if (this.timeout && status === 1 || this.orderDetailsData.status === 6) {
-        return '订单已取消';
+        return 'Cancelled';
       }
       switch (status) {
         case 2:
-          return '等待商户接单';
+          return 'Awaiting Acceptance';
         case 3:
-          return '商家已接单';
+          return 'Order Accepted';
         case 4:
-          return '订单派送中';
+          return 'On the Way';
         case 5:
-          return '订单已完成';}
+          return 'Delivered';}
 
     },
     // 订单倒计时
