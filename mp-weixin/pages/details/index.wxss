@@ -675,7 +675,7 @@
   height: 86rpx;
   line-height: 86rpx;
   border-radius: 8rpx;
-  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+  background: linear-gradient(135deg, #ff6b35, #f97316);
   border: none;
   opacity: 1;
   font-size: 30rpx;
@@ -700,7 +700,7 @@
   margin-bottom: 8rpx;
 }
 .btnBox button.add_btn:active, .btnBox button.add_btn:visited {
-  background: linear-gradient(135deg, #f97316 0%, #ef4444 100%);
+  background: linear-gradient(135deg, #ff6b35, #f97316);
   border: none;
   color: #ffffff;
 }
