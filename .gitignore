@@ -1,0 +1,9 @@
+# Sensitive config — never commit
+sky-take-out/sky-server/src/main/resources/application-dev.yml
+
+# macOS metadata
+.DS_Store
+**/.DS_Store
+
+# IDE
+.idea/

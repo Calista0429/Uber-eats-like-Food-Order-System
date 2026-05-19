@@ -484,7 +484,8 @@ export default class extends Vue {
   }
 
   handleQuery(id: any) {
-    this.goDetail(id, this.tableData.find((r: any) => r.id === id)?.status || 0)
+    const found = this.tableData.find((r: any) => r.id === id)
+    this.goDetail(id, found ? found.status : 0)
   }
 
   handleReceipt(id: any) {
