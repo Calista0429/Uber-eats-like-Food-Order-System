@@ -196,8 +196,8 @@
   height: 86rpx;
   line-height: 86rpx;
   border-radius: 8rpx;
-  background: linear-gradient(135deg, #f97316, #ef4444);
-  border: 1px solid #f97316;
+  background: linear-gradient(135deg, #ff6b35, #f97316);
+  border: none;
   opacity: 1;
   font-size: 30rpx;
   font-family: PingFangSC, PingFangSC-Medium;
