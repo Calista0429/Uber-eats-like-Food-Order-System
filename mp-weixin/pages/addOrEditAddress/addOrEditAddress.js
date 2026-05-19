@@ -337,25 +337,25 @@ var _api = __webpack_require__(/*! ../api/api.js */ 24);function ownKeys(object,
       items: [
       {
         value: "0",
-        name: "先生" },
+        name: "Mr." },
 
       {
         value: "1",
-        name: "女士" }],
+        name: "Ms." }],
 
 
       current: 0,
       options: [
       {
-        name: "公司",
+        name: "Work",
         type: 1 },
 
       {
-        name: "家",
+        name: "Home",
         type: 2 },
 
       {
-        name: "学校",
+        name: "School",
         type: 3 }],
 
 
