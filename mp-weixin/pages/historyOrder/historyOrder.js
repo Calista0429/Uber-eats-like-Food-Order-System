@@ -292,7 +292,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
       scrollH: 0,
       tabIndex: 0,
       tabBars: [
-      '全部订单', '待付款', '已取消'],
+      'All Orders', 'Pending', 'Cancelled'],
 
       textTip: '',
       showConfirm: false,
@@ -354,7 +354,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
         page: this.pageInfo.page,
         status: this.status !== '' ? this.status : '' };
 
-      uni.showLoading({ title: '加载中', mask: true });
+      uni.showLoading({ title: 'Loading...', mask: true });
       (0, _api.getOrderPage)(params).then(function (res) {
         if (res.code === 1) {
           setTimeout(function () {uni.hideLoading();}, 100);
@@ -408,7 +408,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
     dataAdd: function dataAdd() {
       var pages = Math.ceil(this.pageInfo.total / 10); //计算总页数
       if (this.pageInfo.page === pages) {
-        this.loadingText = '没有更多了';
+        this.loadingText = 'No more orders';
         this.loading = true;
       } else {
         this.pageInfo.page++;
@@ -417,7 +417,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
     },
 
     lower: function lower() {
-      this.loadingText = '数据加载中...';
+      this.loadingText = 'Loading...';
       this.loading = true;
       this.dataAdd();
 
@@ -435,7 +435,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
       (0, _api.reminderOrder)(id).then(function (res) {
         if (res.code === 1) {
           _this3.showConfirm = true;
-          _this3.textTip = '您的催单信息已发出！';
+          _this3.textTip = 'Rider reminder sent!';
           _this3.$refs.commonPopup.open(type);
           _this3.getList(_this3.status);
         }
