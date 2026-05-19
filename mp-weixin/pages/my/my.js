@@ -410,7 +410,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
     dataAdd: function dataAdd() {
       var pages = Math.ceil(this.pageInfo.total / 10); //计算总页数
       if (this.pageInfo.page === pages) {
-        this.loadingText = '没有更多了';
+        this.loadingText = 'No more orders';
         this.loading = true;
       } else {
         this.pageInfo.page++;
@@ -419,7 +419,7 @@ var _index = __webpack_require__(/*! @/utils/index.js */ 29);function _interopRe
     },
 
     lower: function lower() {
-      this.loadingText = '数据加载中...';
+      this.loadingText = 'Loading...';
       this.loading = true;
       this.dataAdd();
 
