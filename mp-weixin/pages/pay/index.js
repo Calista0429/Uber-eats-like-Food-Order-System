@@ -189,7 +189,7 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
       orderId: null,
       orderDataInfo: {},
       activeRadio: 0,
-      payMethodList: ['微信支付'],
+      payMethodList: ['WeChat Pay'],
       times: null };
 
   },
@@ -231,8 +231,8 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
               signType: res.data.signType,
               success:function(res){
                 wx.showModal({
-                  title: '提示',
-                  content: '支付成功',
+                  title: 'Notice',
+                  content: 'Payment successful',
                   success:function(){
                     uni.redirectTo({url: '/pages/success/index?orderId=' + _this.orderId });
                   }
@@ -246,7 +246,7 @@ var _api = __webpack_require__(/*! @/pages/api/api.js */ 24);function ownKeys(ob
 
           } else {
             wx.showModal({
-              title: '提示',
+              title: 'Notice',
               content: res.msg
             })
           }
