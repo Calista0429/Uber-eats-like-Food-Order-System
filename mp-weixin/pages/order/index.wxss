@@ -443,7 +443,7 @@
 .order_content .footer_order_buttom .order_but .order_but_left.data-v-0ca91b30 {
   flex: 1;
   background-color: #2d2d2d;
-  color: #ffb302;
+  color: #f97316;
   border-radius: 72rpx 0 0 72rpx;
 }
 .order_content .footer_order_buttom .order_but .order_but_rit.data-v-0ca91b30 {
