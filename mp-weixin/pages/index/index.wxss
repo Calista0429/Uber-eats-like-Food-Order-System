@@ -126,7 +126,7 @@
   font-family: PingFangSC, PingFangSC-Regular;
   font-weight: 400;
   text-align: left;
-  color: #9b9b9b;
+  color: #9ca3af;
   line-height: 34rpx;
   padding: 0 4rpx;
 }
@@ -169,7 +169,7 @@
 .home_content .restaurant_menu_list .type_list.data-v-57280228 {
   display: flex;
   overflow: hidden;
-  background-color: #f3f4f7;
+  background-color: #f5f5f5;
   width: 168rpx;
   padding-top: 140rpx;
   box-sizing: border-box;
@@ -184,7 +184,7 @@
   padding-right: 26rpx;
   font-family: PingFangSC, PingFangSC-Regular;
   font-weight: 400;
-  color: #666666;
+  color: #9ca3af;
   box-sizing: border-box;
   display: flex;
   align-items: center;
@@ -199,14 +199,15 @@
   line-height: 34rpx;
 }
 .home_content .restaurant_menu_list .type_list .active.data-v-57280228 {
-  color: #333333;
-  background-color: #fff;
+  color: #ff6b35;
+  background-color: #fff7ed;
+  border-left: 4rpx solid #ff6b35;
   position: relative;
   font-family: PingFangSC, PingFangSC-Medium;
   font-weight: 500;
 }
 .home_content .restaurant_menu_list .type_list .active.data-v-57280228::after {
-  background-color: #f3f4f7;
+  background-color: #f5f5f5;
   border-radius: 0 15rpx 0 0;
 }
 .home_content .restaurant_menu_list .type_list .seize_seat.data-v-57280228 {
@@ -255,7 +256,7 @@
   line-height: 40rpx;
   font-family: PingFangSC, PingFangSC-Regular;
   font-weight: 400;
-  color: #666666;
+  color: #9ca3af;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -265,7 +266,7 @@
   height: 72rpx;
   line-height: 72rpx;
   font-size: 36rpx;
-  color: #e94e3c;
+  color: #f97316;
   font-family: DIN, DIN-Medium;
   font-weight: 500;
   bottom: 0;
@@ -305,7 +306,7 @@
   line-height: 48rpx;
   text-align: center;
   opacity: 1;
-  background: #ffc200;
+  background: #f97316;
   border-radius: 24rpx;
   font-size: 12px;
   font-family: PingFangSC, PingFangSC-Medium;
@@ -319,7 +320,7 @@
 .home_content .restaurant_menu_list .no_dish.data-v-57280228 {
   flex: 1;
   background-color: #ffffff;
-  color: #9b9b9b;
+  color: #9ca3af;
   font-family: PingFangSC, PingFangSC-Regular;
   font-weight: 400;
   font-size: 26rpx;
@@ -334,7 +335,7 @@
   width: calc(100% - 60rpx);
   height: 88rpx;
   margin: 0 auto;
-  background: rgba(0, 0, 0, 0.9);
+  background: #2d2d2d;
   border-radius: 50rpx;
   box-shadow: 0px 6rpx 10rpx 0px rgba(0, 0, 0, 0.25);
   z-index: 99;
@@ -365,7 +366,7 @@
   font-size: 24rpx;
   top: -8rpx;
   border-radius: 20rpx;
-  background-color: #e94e3c;
+  background-color: #f97316;
   color: #fff;
   font-weight: 500;
 }
@@ -384,7 +385,7 @@
   font-size: 24rpx;
 }
 .home_content .footer_order_buttom .order_but.data-v-57280228 {
-  background-color: #d8d8d8;
+  background-color: #9ca3af;
   width: 204rpx;
   height: 72rpx;
   line-height: 72rpx;
@@ -401,7 +402,7 @@
   font-family: PingFangSC, PingFangSC-Medium;
   font-weight: 500;
   color: #333333;
-  background: #ffc200;
+  background: #f97316;
 }
 .home_content .pop_mask.data-v-57280228 {
   position: fixed;
@@ -555,7 +556,7 @@
 }
 .home_content .pop_mask .cart_pop .card_order_list .type_item .dish_info .dish_price.data-v-57280228 {
   font-size: 32rpx;
-  color: #e94e3c;
+  color: #f97316;
   position: absolute;
   bottom: 24rpx;
 }
@@ -633,7 +634,7 @@
 }
 .home_content .pop_mask .dish_detail_pop .but_item .price.data-v-57280228 {
   text-align: left;
-  color: #e94e3c;
+  color: #f97316;
   line-height: 88rpx;
   box-sizing: border-box;
   font-size: 48rpx;
@@ -668,7 +669,7 @@
   font-weight: 500;
   font-size: 28rpx;
   opacity: 1;
-  background: #ffc200;
+  background: #f97316;
   border-radius: 30rpx;
 }
 .home_content .pop_mask .more_norm_pop.data-v-57280228 {
@@ -706,7 +707,7 @@
   font-family: PingFangSC, PingFangSC-Regular;
   font-weight: 400;
   text-align: left;
-  color: #666666;
+  color: #9ca3af;
   line-height: 40rpx;
   padding-left: 10rpx;
   padding-top: 20rpx;
@@ -716,7 +717,7 @@
   flex-wrap: wrap;
 }
 .home_content .pop_mask .more_norm_pop .items_cont .item_row .flavor_item .item.data-v-57280228 {
-  border: 1px solid #ffb302;
+  border: 1px solid #f97316;
   border-radius: 12rpx;
   margin: 20rpx 10rpx;
   padding: 0 26rpx;
@@ -727,8 +728,8 @@
   color: #333333;
 }
 .home_content .pop_mask .more_norm_pop .items_cont .item_row .flavor_item .act.data-v-57280228 {
-  background: #ffc200;
-  border: 1px solid #ffc200;
+  background: #f97316;
+  border: 1px solid #f97316;
   font-family: PingFangSC, PingFangSC-Medium;
   font-weight: 500;
 }
@@ -741,7 +742,7 @@
 }
 .home_content .pop_mask .more_norm_pop .but_item .price.data-v-57280228 {
   text-align: left;
-  color: #e94e3c;
+  color: #f97316;
   line-height: 88rpx;
   box-sizing: border-box;
   font-size: 48rpx;
@@ -778,7 +779,7 @@
   font-weight: 500;
   font-size: 28rpx;
   opacity: 1;
-  background: #ffc200;
+  background: #f97316;
   border-radius: 30rpx;
 }
 .home_content .pop_mask .lodding.data-v-57280228 {
@@ -817,7 +818,7 @@
   display: inline-block;
   width: 92rpx;
   height: 36rpx;
-  background: #1dc779;
+  background: #22c55e;
   border-radius: 8rpx;
   color: #fff;
   vertical-align: text-top;
