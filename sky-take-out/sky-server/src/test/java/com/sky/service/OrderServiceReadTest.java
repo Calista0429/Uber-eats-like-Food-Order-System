@@ -56,4 +56,10 @@ class OrderServiceReadTest {
         assertEquals(1, vo.getOrderDetailList().size());
         assertEquals("Clam chowder", vo.getOrderDetailList().get(0).getName());
     }
+
+    @Test
+    void details_missingOrder_throws() {
+        when(orderMapper.getById(99L)).thenReturn(null);
+        assertThrows(com.sky.exception.OrderBusinessException.class, () -> orderService.details(99L));
+    }
 }
