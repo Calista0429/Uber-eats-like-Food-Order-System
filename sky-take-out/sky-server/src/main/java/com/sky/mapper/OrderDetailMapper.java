@@ -14,4 +14,9 @@ public interface OrderDetailMapper {
      */
     void insertBatch(ArrayList<OrderDetail> orderDetailList);
 
+    /**
+     * Get all line items for an order.
+     */
+    List<OrderDetail> getByOrderId(Long orderId);
+
 }
