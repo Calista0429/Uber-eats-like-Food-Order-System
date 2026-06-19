@@ -119,4 +119,44 @@ public class OrderServiceImpl implements OrderService {
         return submitVO;
     }
 
+    @Override
+    public OrderStatisticsVO statistics() {
+        OrderStatisticsVO vo = new OrderStatisticsVO();
+        vo.setToBeConfirmed(orderMapper.countStatus(Orders.TO_BE_CONFIRMED));
+        vo.setConfirmed(orderMapper.countStatus(Orders.CONFIRMED));
+        vo.setDeliveryInProgress(orderMapper.countStatus(Orders.DELIVERY_IN_PROGRESS));
+        return vo;
+    }
+
+    @Override
+    public OrderVO details(Long id) {
+        Orders order = orderMapper.getById(id);
+        OrderVO orderVO = new OrderVO();
+        BeanUtils.copyProperties(order, orderVO);
+        orderVO.setOrderDetailList(orderDetailMapper.getByOrderId(id));
+        return orderVO;
+    }
+
+    @Override
+    public PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO) {
+        PageHelper.startPage(ordersPageQueryDTO.getPage(), ordersPageQueryDTO.getPageSize());
+        Page<Orders> page = orderMapper.pageQuery(ordersPageQueryDTO);
+
+        List<OrderVO> list = new ArrayList<>();
+        if (page != null && page.getResult() != null) {
+            for (Orders orders : page.getResult()) {
+                OrderVO orderVO = new OrderVO();
+                BeanUtils.copyProperties(orders, orderVO);
+                List<OrderDetail> details = orderDetailMapper.getByOrderId(orders.getId());
+                orderVO.setOrderDetailList(details);
+                String dishes = details.stream()
+                        .map(d -> d.getName() + "*" + d.getNumber())
+                        .collect(Collectors.joining("; "));
+                orderVO.setOrderDishes(dishes);
+                list.add(orderVO);
+            }
+        }
+        return new PageResult(page == null ? 0 : page.getTotal(), list);
+    }
+
 }
