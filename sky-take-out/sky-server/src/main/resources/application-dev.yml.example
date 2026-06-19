@@ -1,0 +1,27 @@
+# Copy this file to `application-dev.yml` and fill in your own values.
+# `application-dev.yml` is git-ignored — never commit real credentials.
+sky:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    host: localhost
+    port: 3306
+    database: sky_take_out
+    username: your-db-username
+    password: your-db-password
+
+  awsoss:
+    access-key-id: your-aws-access-key-id
+    access-key-secret: your-aws-access-key-secret
+    bucket-name: your-bucket-name
+    endpoint: https://s3.<region>.amazonaws.com
+    region: your-aws-region
+
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: your-redis-password
+    database: 2
+
+  wechat:
+    appid: your-wechat-mini-program-appid
+    secret: your-wechat-mini-program-secret

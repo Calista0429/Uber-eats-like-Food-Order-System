@@ -1,18 +1,45 @@
-# Sky Takeout (苍穹外卖)
+# Sky Take-Out
 
-A comprehensive food delivery and takeout management system that provides a complete solution for restaurant operations, including customer-facing mobile application, administrative dashboard, and backend services.
+A full-stack food delivery and takeout management platform. It gives restaurants an end-to-end solution for running their operations — a customer-facing WeChat Mini Program, an administrative web dashboard, and a RESTful backend that powers both.
 
-## Project Overview
+---
 
-Sky Takeout is a full-stack food delivery platform that enables restaurants to manage their operations efficiently while providing customers with a seamless ordering experience. The system consists of three main components:
+## Table of Contents
 
-1. **WeChat Mini Program** - Customer-facing mobile application
-2. **Admin Dashboard** - Restaurant management web interface
-3. **Backend API** - RESTful services for business logic
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [1. Database](#1-database)
+  - [2. Backend (Spring Boot)](#2-backend-spring-boot)
+  - [3. Admin Dashboard (Vue)](#3-admin-dashboard-vue)
+  - [4. WeChat Mini Program](#4-wechat-mini-program)
+- [Configuration & Secrets](#configuration--secrets)
+- [API Documentation](#api-documentation)
+- [Caching Strategy](#caching-strategy)
+- [Roadmap](#roadmap)
+- [License](#license)
 
-Here shows the diagram of this project
+---
+
+## Overview
+
+Sky Take-Out is a complete ordering and fulfillment system. Customers browse the menu, build a cart, place and pay for orders, and track delivery from a WeChat Mini Program. Staff manage dishes, set meals, employees, and the full order lifecycle from a web dashboard, while the backend exposes a clean REST API consumed by both clients.
+
+The system is organized around three actors:
+
+| Actor | Client | Responsibilities |
+|-------|--------|------------------|
+| **Customer** | WeChat Mini Program | Browse menu, manage cart & addresses, place/pay orders, view history |
+| **Merchant / Staff** | Admin Dashboard | Manage employees, categories, dishes, set meals, orders, shop status, analytics |
+| **Courier** | (delivery flow) | Accept and confirm delivery of prepared orders |
+
+## Architecture
+
 ```mermaid
-
 flowchart TB
 
 %% ======================
@@ -84,92 +111,140 @@ end
 U6 -- Payment Success --> M1
 M6 --> C1
 C3 --> M10
-
-
 ```
 
+## Tech Stack
 
-## Core Features
+**Backend**
+- Java + Spring Boot 2.7.3
+- MyBatis (XML mappers) + PageHelper for pagination
+- MySQL (persistence) · Redis (caching & session)
+- Druid connection pool
+- JWT for authentication (separate admin / user tokens)
+- AWS S3 for image & file storage
+- Apache POI for Excel report export
+- Knife4j (Swagger / OpenAPI) for API documentation
 
-### Customer Features (WeChat Mini Program)
-- **User Authentication** - WeChat login integration
-- **Menu Browsing** - Browse dishes and setmeals by category
-- **Shopping Cart** - Add, modify, and manage items in cart
-- **Order Management** - Place orders, view order history, track order status
-- **Payment Integration** - WeChat Pay payment processing
-- **Address Management** - Add, edit, and manage delivery addresses
-- **Order Details** - View detailed order information and status
+**Admin Dashboard**
+- Vue 2 + TypeScript
+- Element UI component library
+- Vuex (state) · Vue Router · Axios
+- ECharts for analytics charts
+- Built with Vue CLI
 
-### Admin Features
-- **Employee Management** - Add, edit, enable/disable employee accounts
-- **Category Management** - Organize dishes into categories
-- **Dish Management** - Create, update, and manage dishes with flavors
-- **Setmeal Management** - Create and manage meal packages
-- **Order Management** - Process orders, update order status, handle cancellations
-- **Shop Management** - Configure shop information and business hours
+**Customer App**
+- WeChat Mini Program (uni-app based)
 
+**Infrastructure & Tooling**
+- Nginx (reverse proxy / static hosting — `nginx-1.20.2/` bundled)
+- Maven (multi-module build)
+- Git
 
-## Services Implemented
+## Project Structure
 
-### User Services
-- **User Service** - User registration, login, and profile management
-- **Address Book Service** - Delivery address CRUD operations
-- **Shopping Cart Service** - Cart item management
-- **Order Service** - Order creation, payment processing, status tracking
+```
+sky-take-out/
+├── sky-take-out/                 # Backend — Maven multi-module project
+│   ├── sky-common/               #   Shared utilities, constants, exceptions, result wrappers
+│   ├── sky-pojo/                 #   Entities, DTOs, VOs
+│   └── sky-server/               #   Controllers, services, mappers, config (Spring Boot app)
+├── project-rjwm-admin-vue-ts/    # Admin dashboard (Vue 2 + TypeScript)
+├── mp-weixin/                    # WeChat Mini Program (customer-facing)
+└── nginx-1.20.2/                 # Bundled Nginx for local reverse proxy
+```
 
-### Admin Services
-- **Employee Service** - Employee account management and authentication
-- **Category Service** - Category management with hierarchical structure
-- **Dish Service** - Dish management with flavor options and image upload
-- **Setmeal Service** - Setmeal creation and management
-- **Order Service** - Order processing, status updates, and statistics
-- **Shop Service** - Shop configuration and status management
-- **Workspace Service** - Business data analytics and reporting
+## Features
 
-### Common Services
-- **File Upload Service** - Image and file upload to cloud storage (AWS S3)
-- **Payment Service** - WeChat Pay integration for order payments
-- **Notification Service** - Order status notifications
+### Customer (WeChat Mini Program)
+- WeChat login & authentication
+- Browse dishes and set meals by category
+- Shopping cart: add, update quantity, clear
+- Place orders, repeat past orders, track status
+- WeChat Pay integration
+- Delivery address management
 
-## Technology Stack
+### Admin Dashboard
+- **Employee management** — create, edit, enable/disable accounts
+- **Category management** — organize dishes and set meals
+- **Dish management** — CRUD with flavor options and image upload
+- **Set meal management** — bundle dishes into combos
+- **Order management** — accept, reject, dispatch, complete, and cancel orders
+- **Shop management** — toggle business status and configuration
+- **Analytics** — revenue, order, and customer statistics with Excel export
 
-<table><tr><td valign="top" width="33%">
+## Getting Started
 
-### Backend Development  
-<div align="center">  
-<a href="https://spring.io/projects/spring-boot" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/springio-icon.svg" alt="Spring Boot" height="50" /></a>  
-<a href="https://mybatis.org/mybatis-3/" target="_blank"><img style="margin: 10px" src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mybatis/mybatis-original.svg" alt="MyBatis" height="50" /></a>  
-<a href="https://www.mysql.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/mysql-original-wordmark.svg" alt="MySQL" height="50" /></a>  
-<a href="https://redis.io/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/redis-original-wordmark.svg" alt="Redis" height="50" /></a>  
+### Prerequisites
 
+- JDK 8 or 11
+- Maven 3.6+
+- MySQL 5.7+ / 8.x
+- Redis 5+
+- Node.js (for the admin dashboard build)
+- WeChat Developer Tools (for the Mini Program)
+- An AWS S3 bucket and a WeChat Mini Program account (for image upload and login)
 
+### 1. Database
 
-</div>
+Create the database and import the schema/seed data:
 
-</td><td valign="top" width="33%">
+```sql
+CREATE DATABASE sky_take_out CHARACTER SET utf8mb4;
+```
 
-### Frontend Development  
-<div align="center">  
-<a href="https://vuejs.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/vuejs-original-wordmark.svg" alt="Vue.js" height="50" /></a>  
-<a href="https://www.typescriptlang.org/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/typescript-original.svg" alt="TypeScript" height="50" /></a>  
+> Import the project's SQL script into the `sky_take_out` database before starting the backend.
 
-</div>
+### 2. Backend (Spring Boot)
 
-</td><td valign="top" width="33%">
+```bash
+cd sky-take-out
+mvn clean package -DskipTests
+java -jar sky-server/target/sky-server-1.0-SNAPSHOT.jar
+```
 
-### Tools & Infrastructure  
-<div align="center">  
-<a href="https://www.nginx.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/nginx-original.svg" alt="Nginx" height="50" /></a>  
- 
-<a href="https://git-scm.com/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/git-scm-icon.svg" alt="Git" height="50" /></a>  
+Or run `SkyApplication` directly from your IDE. The server listens on **port 8080** by default.
 
-<a href="https://aws.amazon.com/s3/" target="_blank"><img style="margin: 10px" src="https://profilinator.rishav.dev/skills-assets/amazonwebservices-original-wordmark.svg" alt="AWS S3" height="50" /></a>  
-</div>
+Configure your local secrets in `sky-server/src/main/resources/application-dev.yml` (see [Configuration & Secrets](#configuration--secrets)).
 
-</td></tr></table>
+### 3. Admin Dashboard (Vue)
 
-## Project Diagram
-### User Query Dishes with redis for caching
+```bash
+cd project-rjwm-admin-vue-ts
+npm install
+npm run serve        # development
+npm run build        # production build
+```
+
+### 4. WeChat Mini Program
+
+Open the `mp-weixin/` directory in **WeChat Developer Tools**, set your own AppID in `project.config.json`, and run it against a backend reachable from the simulator.
+
+## Configuration & Secrets
+
+The backend reads all sensitive values from `application-dev.yml`, which feeds into `application.yml` via placeholders. The following must be provided:
+
+| Group | Keys |
+|-------|------|
+| `sky.datasource` | `host`, `port`, `database`, `username`, `password` |
+| `sky.redis` | `host`, `port`, `password`, `database` |
+| `sky.awsoss` | `access-key-id`, `access-key-secret`, `bucket-name`, `endpoint`, `region` |
+| `sky.wechat` | `appid`, `secret` |
+
+> [!WARNING]
+> **Never commit real credentials.** Keep `application-dev.yml` out of version control (or commit it with placeholder values only) and supply real secrets via environment variables or an untracked local file. The default JWT signing keys in `application.yml` should also be changed before any deployment.
+
+## API Documentation
+
+With the backend running, the Knife4j (Swagger) UI is available at:
+
+```
+http://localhost:8080/doc.html
+```
+
+## Caching Strategy
+
+Dish queries are cached in Redis to reduce database load. The flow on a customer menu request:
+
 ```mermaid
 flowchart TB
 
@@ -200,57 +275,15 @@ L --> M[Query Dish Data]
 M --> H
 ```
 
-## TODO List
+When dishes are created, updated, or have their sale status changed from the admin side, the corresponding cache entries are evicted to keep the menu consistent.
 
-### Order Management Service
+## Roadmap
 
-- [ ] Implement order pagination query
-- [ ] Implement order details query
-- [ ] Implement order status update
-- [ ] Implement order confirmation
-- [ ] Implement order rejection
-- [ ] Implement order cancellation
-- [ ] Implement order delivery
-- [ ] Implement order completion
-- [ ] Implement user order history
-- [ ] Implement order statistics
+- [ ] WebSocket-based real-time order notifications for merchants
+- [ ] More detailed sales and customer analytics
+- [ ] Coupon and promotion system
+- [ ] Automated test coverage for the order and payment flows
 
-### Payment Service
+## License
 
-- [ ] Implement payment processing
-- [ ] Implement payment callback handler
-- [ ] Implement payment status query
-- [ ] Implement refund functionality
-- [ ] Add payment methods to OrderService interface
-- [ ] Add payment endpoints to User OrderController
-
-### Order Dashboard Service
-
-- [ ] Complete getOverviewOrders method
-- [ ] Complete getBusinessData method
-- [ ] Add order statistics method
-- [ ] Add order trend analysis method
-- [ ] Create WorkspaceServiceImpl
-- [ ] Create WorkspaceController
-
-### Controllers
-
-- [ ] Create Admin OrderController
-- [ ] Add order statistics endpoint
-- [ ] Enhance User OrderController with history and detail endpoints
-
-### Data Access Layer
-
-- [ ] Enhance OrderMapper methods
-- [ ] Enhance OrderDetailMapper methods
-
-### DTOs/VOs
-
-- [ ] Create order DTOs (Confirm, Rejection, Cancel, Delivery)
-- [ ] Create order VOs (Statistics, Detail)
-
-### Testing
-
-- [ ] Test order management flow
-- [ ] Test payment functionality
-- [ ] Test dashboard services
+This project is intended for learning and demonstration purposes.
