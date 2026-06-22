@@ -63,6 +63,19 @@ class WorkspaceServiceImplTest {
     }
 
     @Test
+    void getBusinessData_nullValidOrders_noNpe() {
+        when(workspaceMapper.getTurnover(any(), any())).thenReturn(new java.math.BigDecimal("100"));
+        when(workspaceMapper.getOrderCount(any(), any())).thenReturn(5);
+        when(workspaceMapper.getValidOrderCount(any(), any())).thenReturn(null);
+        when(workspaceMapper.getNewUsers(any(), any())).thenReturn(0);
+        DataOverViewQueryDTO dto = DataOverViewQueryDTO.builder()
+                .begin(LocalDateTime.now()).end(LocalDateTime.now()).build();
+        BusinessDataVO vo = workspaceService.getBusinessData(dto);
+        assertEquals(0.0, vo.getOrderCompletionRate());
+        assertEquals(0, vo.getValidOrderCount());
+    }
+
+    @Test
     void getOverviewOrders_mapsCounts() {
         when(workspaceMapper.getWaitingOrders()).thenReturn(1);
         when(workspaceMapper.getDeliveredOrders()).thenReturn(2);

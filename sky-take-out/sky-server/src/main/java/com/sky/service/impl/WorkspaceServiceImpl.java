@@ -33,7 +33,7 @@ public class WorkspaceServiceImpl implements WorkspaceService {
         Integer newUsers = workspaceMapper.getNewUsers(begin, end);
 
         double completionRate = (totalOrders == null || totalOrders == 0)
-                ? 0.0 : validOrders.doubleValue() / totalOrders;
+                ? 0.0 : (validOrders == null ? 0.0 : validOrders.doubleValue()) / totalOrders;
         double unitPrice = (validOrders == null || validOrders == 0)
                 ? 0.0 : turnover / validOrders;
 
